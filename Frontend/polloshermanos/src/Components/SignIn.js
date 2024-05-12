@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './Login.css'; // Import CSS file
+import './SignIn.css'; // Import CSS file
 
-function SignIn() {
+function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -20,16 +20,16 @@ function SignIn() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add sign-in logic here
+    // Handle sign-in logic here
     console.log("Email:", email);
     console.log("Password:", password);
     console.log("Confirm Password:", confirmPassword);
-    // You can add further logic here, such as sending the data to a backend server for authentication
+    // You can add further logic here, such as sending the data to a backend server for user registration
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
+    <div className="signin-container">
+      <form onSubmit={handleSubmit} className="signin-form">
         <h2>Sign In</h2>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
@@ -61,10 +61,10 @@ function SignIn() {
             required
           />
         </div>
-        <button type="submit" className="login-btn">Sign In</button>
+        <button type="submit" className="signin-btn">Sign In</button>
       </form>
     </div>
   );
 }
 
-export default SignIn;
+export default Signin;

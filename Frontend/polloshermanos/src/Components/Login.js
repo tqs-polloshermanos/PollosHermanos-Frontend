@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './Login.css'; // Import CSS file
 
@@ -47,8 +48,9 @@ function Login() {
           />
         </div>
         <button type="submit" className="login-btn">Login</button>
+
+        <p>If you don’t have an account please sign in <Link to="/signin">here</Link>.</p> {/* Link to the sign-in component */}
       </form>
-      <p>If you don’t have an account please sign in .</p>
     </div>
   );
 }
