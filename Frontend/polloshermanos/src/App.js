@@ -8,6 +8,7 @@ import Menu from './Components/Menu';
 import History from './Components/History';
 import Restaurants from './Components/Restaurants';
 import Cart from './Components/Cart';
+import Contact from './Components/Contact';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/history" component={History} /> {/* Define route for History component */}
           <Route path="/restaurants" component={Restaurants} /> {/* Define route for Restaurants component */}
           <Route path="/cart" component={Cart} /> {/* Define route for Cart component */}
+          <Route path="/contact" component={Contact} /> {/* Define route for Contact component */}
         </Switch>
       </div>
     </Router>
