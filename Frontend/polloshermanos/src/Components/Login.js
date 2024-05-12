@@ -49,7 +49,7 @@ function Login() {
         </div>
         <button type="submit" className="login-btn">Login</button>
 
-        <p>If you don’t have an account please sign in <Link to="/signin">here</Link>.</p> {/* Link to the sign-in component */}
+        <p>If you don’t have an account please sign in <a href="/signin">here</a>.</p> {/* Link to the sign-in component */}
       </form>
     </div>
   );
