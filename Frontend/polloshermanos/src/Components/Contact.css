@@ -1,0 +1,19 @@
+/* Contact.css */
+
+.contact-container {
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  .contact-info {
+    margin-top: 20px;
+  }
+  
+  .contact-info p {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
