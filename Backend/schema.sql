@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS Products (
     Description TEXT,
     Price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (RestaurantID) REFERENCES Restaurants(RestaurantID)
+    CHECK (CuisineType IN ("Italian", "Mexican", "Japanese", "Indian", "Chinese", "French", "Greek", "Spanish", "American"))
 );
 
 CREATE TABLE IF NOT EXISTS Ingredients (
@@ -24,6 +25,7 @@ CREATE TABLE IF NOT EXISTS Ingredients (
 CREATE TABLE IF NOT EXISTS ProductIngredients (
     IngredientID INT,
     ProductID INT,
+    Quantity DECIMAL(10, 2),
     PRIMARY KEY (IngredientID, ProductID),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
     FOREIGN KEY (IngredientID) REFERENCES Ingredients(IngredientID)
@@ -33,15 +35,19 @@ CREATE TABLE IF NOT EXISTS Restaurants (
     RestaurantID INT PRIMARY KEY AUTO_INCREMENT,
     RestaurantName VARCHAR(100) NOT NULL,
     Address VARCHAR(100) NOT NULL,
+    CuisineType VARCHAR(100) NOT NULL,
     Description TEXT
+    CHECK (CuisineType IN ("Italian", "Mexican", "Japanese", "Indian", "Chinese", "French", "Greek", "Spanish", "American"))
 );
 
 CREATE TABLE IF NOT EXISTS Orders (
     OrderID INT PRIMARY KEY AUTO_INCREMENT,
     CustomerID INT,
+    RestaurantID INT,
     OrderDate DATE,
     TotalAmount DECIMAL(10, 2),
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+    FOREIGN KEY (RestaurantID) REFERENCES Restaurants(RestaurantID)
 );
 
 CREATE TABLE IF NOT EXISTS OrderDetails (
