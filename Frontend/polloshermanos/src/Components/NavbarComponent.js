@@ -17,7 +17,7 @@ function NavbarComponent() {
           <li className="nav-item"><a href="#contact" className="nav-link">Contact</a></li>
           <li className="nav-item">
             {/* Cart link with cart image */}
-            <a href="#cart" className="nav-link cart-link">
+            <a href="/cart" className="nav-link cart-link">
               <div className="cart-container">
                 <img src={cartImage} alt="Cart" className="cart-image" />
               </div>
