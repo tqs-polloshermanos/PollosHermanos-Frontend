@@ -1,0 +1,45 @@
+/* History.css */
+
+.history-container {
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+
+  .purchases-container {
+    display: grid;
+    background-color: rgb(255, 157, 0);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .purchase-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  .purchase-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  .purchase-card img {
+    width: 100%;
+    border-radius: 5px;
+  }
+  
+  .purchase-card h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .purchase-card p {
+    font-size: 14px;
+    color: #555;
+  }
+  
