@@ -6,6 +6,7 @@ import Login from './Components/Login';
 import SignIn from './Components/SignIn';
 import Menu from './Components/Menu';
 import History from './Components/History';
+import Restaurants from './Components/Restaurants';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/signin" component={SignIn} /> {/* Define route for SignIn component */}
           <Route path="/menu" component={Menu} /> {/* Define route for Menu component */}
           <Route path="/history" component={History} /> {/* Define route for History component */}
+          <Route path="/restaurants" component={Restaurants} /> {/* Define route for Restaurants component */}
         </Switch>
       </div>
     </Router>
