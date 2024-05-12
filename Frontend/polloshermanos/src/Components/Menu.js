@@ -19,6 +19,11 @@ function Menu() {
     console.log('Cuisine type:', cuisineType);
   };
 
+  const handleAddToCart = (mealName) => {
+    // Logic to add meal to cart
+    console.log(`Adding ${mealName} to cart...`);
+  };
+
   return (
     <div className="menu-container">
       <h1>Menu</h1>
@@ -38,19 +43,25 @@ function Menu() {
         </select>
         <button onClick={handleSearch}>Search</button>
       </div>
-      <div className="meal-examples">
-        {/* Render meal examples here */}
-        <div className="meal-card">
-          <img src="example1.jpg" alt="Meal 1" />
-          <h3>Meal Name</h3>
-          <p>Description of the meal...</p>
+      <div className="meal-container">
+        <div className="meal-examples">
+          {/* Render meal examples here */}
+          <div className="meal-card">
+            <img src="example1.jpg" alt="Meal 1" />
+            <h3>Meal Name</h3>
+            <p>Description of the meal...</p>
+            <p>Price of the meal...</p>
+            <button onClick={() => handleAddToCart('Meal 1')}>Add to Cart</button>
+          </div>
+          <div className="meal-card">
+            <img src="example2.jpg" alt="Meal 2" />
+            <h3>Meal Name</h3>
+            <p>Description of the meal...</p>
+            <p>Price of the meal...</p>
+            <button onClick={() => handleAddToCart('Meal 2')}>Add to Cart</button>
+          </div>
+          {/* Add more meal examples */}
         </div>
-        <div className="meal-card">
-          <img src="example2.jpg" alt="Meal 2" />
-          <h3>Meal Name</h3>
-          <p>Description of the meal...</p>
-        </div>
-        {/* Add more meal examples */}
       </div>
     </div>
   );

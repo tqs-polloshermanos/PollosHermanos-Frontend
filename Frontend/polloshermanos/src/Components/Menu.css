@@ -38,6 +38,15 @@
     cursor: pointer;
   }
   
+  .meal-container {
+    display: grid;
+    background-color: rgb(255, 157, 0);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  
   .meal-examples {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
