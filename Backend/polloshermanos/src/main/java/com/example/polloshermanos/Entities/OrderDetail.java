@@ -21,6 +21,15 @@ public class OrderDetail {
     @Column(nullable = false, name = "price")
     private double price;
 
+    public OrderDetail(Product product, int quantity, double price) {
+        this.product = product;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public OrderDetail() {
+    }
+
     public Long getOrderDetailId() {
         return orderDetailId;
     }

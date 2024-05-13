@@ -17,6 +17,18 @@ public class Ingredient {
     @Column(name = "description")
     private String description;
 
+    public Ingredient(String ingredientName, String description) {
+        this.ingredientName = ingredientName;
+        this.description = description;
+    }
+
+    public Ingredient(String ingredientName) {
+        this.ingredientName = ingredientName;
+    }
+
+    public Ingredient() {
+    }
+
     public Long getIngredientId() {
         return ingredientId;
     }

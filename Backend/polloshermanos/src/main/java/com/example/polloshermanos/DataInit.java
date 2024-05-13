@@ -1,27 +1,27 @@
 package main.java.com.example.polloshermanos;
 
-import com.example.polloshermanos.Entities.CuisineType;
-import com.example.polloshermanos.Entities.Ingredient;
-import com.example.polloshermanos.Entities.Order;
-import com.example.polloshermanos.Entities.OrderDetail;
-import com.example.polloshermanos.Entities.OrderStatus;
-import com.example.polloshermanos.Entities.Payment;
-import com.example.polloshermanos.Entities.Product;
-import com.example.polloshermanos.Entities.ProductIngredients;
-import com.example.polloshermanos.Entities.Restaurant;
-import com.example.polloshermanos.Entities.RoleType;
-import com.example.polloshermanos.Entities.Status;
-import com.example.polloshermanos.Entities.User;
+import main.java.com.example.polloshermanos.Entities.CuisineType;
+import main.java.com.example.polloshermanos.Entities.Ingredient;
+import main.java.com.example.polloshermanos.Entities.Order;
+import main.java.com.example.polloshermanos.Entities.OrderDetail;
+import main.java.com.example.polloshermanos.Entities.OrderStatus;
+import main.java.com.example.polloshermanos.Entities.Payment;
+import main.java.com.example.polloshermanos.Entities.Product;
+import main.java.com.example.polloshermanos.Entities.ProductIngredients;
+import main.java.com.example.polloshermanos.Entities.Restaurant;
+import main.java.com.example.polloshermanos.Entities.RoleType;
+import main.java.com.example.polloshermanos.Entities.Status;
+import main.java.com.example.polloshermanos.Entities.User;
 
-import com.example.polloshermanos.Services.IngredientService;
-import com.example.polloshermanos.Services.OrderDetailService;
-import com.example.polloshermanos.Services.OrderService;
-import com.example.polloshermanos.Services.OrderStatusService;
-import com.example.polloshermanos.Services.PaymentService;
-import com.example.polloshermanos.Services.ProductIngredientsService;
-import com.example.polloshermanos.Services.ProductService;
-import com.example.polloshermanos.Services.RestaurantService;
-import com.example.polloshermanos.Services.UserService;
+import main.java.com.example.polloshermanos.Services.IngredientService;
+import main.java.com.example.polloshermanos.Services.OrderDetailService;
+import main.java.com.example.polloshermanos.Services.OrderService;
+import main.java.com.example.polloshermanos.Services.OrderStatusService;
+import main.java.com.example.polloshermanos.Services.PaymentService;
+import main.java.com.example.polloshermanos.Services.ProductIngredientsService;
+import main.java.com.example.polloshermanos.Services.ProductService;
+import main.java.com.example.polloshermanos.Services.RestaurantService;
+import main.java.com.example.polloshermanos.Services.UserService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -43,6 +43,7 @@ public class DataInit implements CommandLineRunner{
     private final ProductService productService;
     private final RestaurantService restaurantService;
     private final UserService userService;
+    private final Random random;
 
     public DataInit(IngredientService ingredientService, OrderDetailService orderDetailService, OrderService orderService, OrderStatusService orderStatusService, PaymentService paymentService, ProductIngredientsService productIngredientsService, ProductService productService, RestaurantService restaurantService, UserService userService) {
         this.ingredientService = ingredientService;

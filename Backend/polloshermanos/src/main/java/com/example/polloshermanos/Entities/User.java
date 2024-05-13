@@ -21,6 +21,21 @@ public class User {
     @Column(nullable = false, name = "role")
     private RoleType role;
 
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+        this.role = RoleType.CUSTOMER;
+    }
+
+    public User(String email, String password, RoleType role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User() {
+    }
+    
     public Long getUserId() {
         return userId;
     }

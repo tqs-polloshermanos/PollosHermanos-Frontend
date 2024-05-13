@@ -24,8 +24,26 @@ public class Restaurant {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "restaurant_image_path")
+    @Column(nullable = false, name = "restaurant_image_path")
     private String restaurantImagePath;
+
+    public Restaurant(String restaurantName, String address, CuisineType cuisineType, String description, String restaurantImagePath) {
+        this.restaurantName = restaurantName;
+        this.address = address;
+        this.cuisineType = cuisineType;
+        this.description = description;
+        this.restaurantImagePath = restaurantImagePath;
+    }
+
+    public Restaurant(String restaurantName, String address, CuisineType cuisineType, String restaurantImagePath) {
+        this.restaurantName = restaurantName;
+        this.address = address;
+        this.cuisineType = cuisineType;
+        this.restaurantImagePath = restaurantImagePath;
+    }
+
+    public Restaurant() {
+    }
 
     public Long getRestaurantId() {
         return restaurantId;

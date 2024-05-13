@@ -23,6 +23,15 @@ public class OrderStatus {
     @Column(nullable = false, name = "status_date")
     private LocalDateTime statusDate;
 
+    public OrderStatus(Order order, Status status, LocalDateTime statusDate) {
+        this.order = order;
+        this.status = status;
+        this.statusDate = statusDate;
+    }
+
+    public OrderStatus() {
+    }
+
     public Long getOrderStatusId() {
         return orderStatusId;
     }

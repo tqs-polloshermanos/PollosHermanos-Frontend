@@ -31,6 +31,26 @@ public class Product {
     @Column(name = "product_image_path")
     private String productImagePath;
 
+    public Product(String productName, CuisineType cuisineType, Restaurant restaurant, String description, double price, String productImagePath) {
+        this.productName = productName;
+        this.cuisineType = cuisineType;
+        this.restaurant = restaurant;
+        this.description = description;
+        this.price = price;
+        this.productImagePath = productImagePath;
+    }
+
+    public Product(String productName, CuisineType cuisineType, Restaurant restaurant, String description, double price) {
+        this.productName = productName;
+        this.cuisineType = cuisineType;
+        this.restaurant = restaurant;
+        this.description = description;
+        this.price = price;
+    }
+
+    public Product() {
+    }
+
     public Long getProductId() {
         return productId;
     }

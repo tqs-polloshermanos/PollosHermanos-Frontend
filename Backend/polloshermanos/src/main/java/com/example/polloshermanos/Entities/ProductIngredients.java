@@ -25,6 +25,16 @@ public class ProductIngredients {
     @Column(nullable = false, name = "price")
     private double price;
 
+    public ProductIngredients(Ingredient ingredient, Product product, int quantity, double price) {
+        this.ingredient = ingredient;
+        this.product = product;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public ProductIngredients() {
+    }
+
     public Long getProductIngredientsId() {
         return productIngredientsId;
     }

@@ -35,6 +35,19 @@ public class Payment {
     @Column(nullable = false, name = "card_cvv")
     private String cardCVV;
 
+    public Payment(Order order, LocalDateTime paymentDate, double amount, String cardNumber, String cardHolderName, LocalDate cardExpiryDate, String cardCVV) {
+        this.order = order;
+        this.paymentDate = paymentDate;
+        this.amount = amount;
+        this.cardNumber = cardNumber;
+        this.cardHolderName = cardHolderName;
+        this.cardExpiryDate = cardExpiryDate;
+        this.cardCVV = cardCVV;
+    }
+
+    public Payment() {
+    }
+
     public Long getPaymentId() {
         return paymentId;
     }
