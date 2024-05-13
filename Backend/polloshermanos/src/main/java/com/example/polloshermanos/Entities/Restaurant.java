@@ -24,6 +24,9 @@ public class Restaurant {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "restaurant_image_path")
+    private String restaurantImagePath;
+
     public Long getRestaurantId() {
         return restaurantId;
     }
@@ -62,5 +65,13 @@ public class Restaurant {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getRestaurantImagePath() {
+        return restaurantImagePath;
+    }
+
+    public void setRestaurantImagePath(String restaurantImagePath) {
+        this.restaurantImagePath = restaurantImagePath;
     }
 }

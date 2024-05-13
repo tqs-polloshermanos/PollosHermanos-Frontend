@@ -28,6 +28,9 @@ public class Product {
     @Column(nullable = false, name = "price")
     private double price;
 
+    @Column(name = "product_image_path")
+    private String productImagePath;
+
     public Long getProductId() {
         return productId;
     }
@@ -74,6 +77,14 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getProductImagePath() {
+        return productImagePath;
+    }
+
+    public void setProductImagePath(String productImagePath) {
+        this.productImagePath = productImagePath;
     }
 
 }
