@@ -11,7 +11,8 @@ def generate_users_data(num_records):
     for _ in range(num_records):
         email = fake.email()
         password = fake.password(length=12, special_chars=True, digits=True, upper_case=True, lower_case=True)
-        data.append((email, password))
+        role_type = random.choice(["Admin", "Customer", "Employee"])
+        data.append((email, password, role_type))
     return data
 
 # Function to generate random data for products
@@ -78,7 +79,7 @@ def generate_payments_data(num_records, num_orders):
 def populate_users(cursor, num_records):
     data = generate_users_data(num_records)
     for item in data:
-        cursor.execute("INSERT INTO Users (Email, Password) VALUES (%s, %s)", item)
+        cursor.execute("INSERT INTO Users (Email, Password, RoleType) VALUES (%s, %s, %s)", item)
 
 # Function to populate Products table
 def populate_products(cursor, num_records):
