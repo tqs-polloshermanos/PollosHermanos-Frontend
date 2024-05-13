@@ -9,5 +9,7 @@ public enum CuisineType {
     FRENCH,
     GREEK,
     SPANISH,
-    AMERICAN
+    AMERICAN,
+    FAST_FOOD,
+    THAI
 }

@@ -20,6 +20,10 @@ public class Order {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    @ManyToOne
+    @JoinColumn(name = "order_detail_id")
+    private OrderDetail orderDetail;
+
     @Column(nullable = false, name = "order_date")
     private LocalDateTime orderDate;
 
@@ -50,6 +54,14 @@ public class Order {
         this.restaurant = restaurant;
     }
 
+    public OrderDetail getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(OrderDetail orderDetail) {
+        this.orderDetail = orderDetail;
+    }
+
     public LocalDateTime getOrderDate() {
         return orderDate;
     }
@@ -65,5 +77,6 @@ public class Order {
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
+
 
 }
