@@ -33,6 +33,16 @@ public class RestaurantController {
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Restaurant> getRestaurantByName(@PathVariable("name") String name) {
+        try {
+            Restaurant restaurant = restaurantService.getRestaurantByName(name);
+            return new ResponseEntity<>(restaurant, HttpStatus.OK);
+        } catch (IllegalStateException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant) {
         Restaurant newRestaurant = restaurantService.createRestaurant(restaurant);

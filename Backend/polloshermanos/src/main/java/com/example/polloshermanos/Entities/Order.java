@@ -30,6 +30,17 @@ public class Order {
     @Column(nullable = false, name = "total_amount")
     private double totalAmount;
 
+    public Order(User user, Restaurant restaurant, OrderDetail orderDetail, LocalDateTime orderDate, double totalAmount) {
+        this.user = user;
+        this.restaurant = restaurant;
+        this.orderDetail = orderDetail;
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+    }
+
+    public Order() {
+    }
+
     public Long getOrderId() {
         return orderId;
     }

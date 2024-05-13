@@ -33,5 +33,13 @@ public class RestaurantService {
     public void deleteRestaurant(Long id) {
         restaurantRepository.deleteById(id);
     }
+
+    public Restaurant getRestaurantByName(String name) {
+        Optional<Restaurant> restaurant = restaurantRepository.findByName(name);
+        if(restaurant.isEmpty()) {
+            throw new IllegalStateException("Restaurant with name " + name + " does not exist");
+        }
+        return restaurant.get();
+    }
     
 }
