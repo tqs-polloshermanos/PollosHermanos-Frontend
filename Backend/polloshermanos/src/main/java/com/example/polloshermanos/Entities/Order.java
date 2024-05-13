@@ -9,20 +9,21 @@ public class Order {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
-    private Long userId;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "restaurantId")
-    private Long restaurantId;
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "order_date")
     private LocalDateTime orderDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "total_amount")
     private double totalAmount;
 
     public Long getOrderId() {
@@ -33,20 +34,20 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getRestaurantId() {
-        return restaurantId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public LocalDateTime getOrderDate() {
@@ -64,4 +65,5 @@ public class Order {
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
+
 }

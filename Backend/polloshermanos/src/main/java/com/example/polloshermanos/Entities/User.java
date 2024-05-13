@@ -8,16 +8,17 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, name = "email")
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "password")
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "role")
     private RoleType role;
 
     public Long getUserId() {

@@ -8,23 +8,24 @@ public class Product {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long productId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "product_name")
     private String productName;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "cuisine_type")
     private CuisineType cuisineType;
 
     @ManyToOne
-    @JoinColumn(name = "restaurantId")
-    private Long restaurantId;
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "description")
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "price")
     private double price;
 
     public Long getProductId() {
@@ -51,12 +52,12 @@ public class Product {
         this.cuisineType = cuisineType;
     }
 
-    public Long getRestaurantId() {
-        return restaurantId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantId(Long restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public String getDescription() {
@@ -74,4 +75,5 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
+
 }

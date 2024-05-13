@@ -8,19 +8,20 @@ public class Restaurant {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "restaurant_id")
     private Long restaurantId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "restaurant_name")
     private String restaurantName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "address")
     private String address;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "cuisine_type")
     private CuisineType cuisineType;
 
-    @Column
+    @Column(name = "description")
     private String description;
 
     public Long getRestaurantId() {

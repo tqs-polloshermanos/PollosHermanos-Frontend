@@ -9,17 +9,18 @@ public class OrderStatus {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_status_id")
     private Long orderStatusId;
 
     @ManyToOne
-    @JoinColumn(name = "orderId")
-    private Long orderId;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "status")
     private Status status;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "status_date")
     private LocalDateTime statusDate;
 
     public Long getOrderStatusId() {
@@ -30,12 +31,12 @@ public class OrderStatus {
         this.orderStatusId = orderStatusId;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Status getStatus() {
@@ -53,4 +54,5 @@ public class OrderStatus {
     public void setStatusDate(LocalDateTime statusDate) {
         this.statusDate = statusDate;
     }
+
 }

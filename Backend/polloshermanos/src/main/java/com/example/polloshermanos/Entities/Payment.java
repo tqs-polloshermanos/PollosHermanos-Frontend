@@ -10,28 +10,29 @@ public class Payment {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "payment_id")
     private Long paymentId;
 
     @ManyToOne
-    @JoinColumn(name = "orderId")
-    private Long orderId;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "payment_date")
     private LocalDateTime paymentDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "amount")
     private double amount;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "card_number")
     private String cardNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "card_holder_name")
     private String cardHolderName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "card_expiry_date")
     private LocalDate cardExpiryDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "card_cvv")
     private String cardCVV;
 
     public Long getPaymentId() {
@@ -42,12 +43,12 @@ public class Payment {
         this.paymentId = paymentId;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public LocalDateTime getPaymentDate() {
@@ -97,4 +98,5 @@ public class Payment {
     public void setCardCVV(String cardCVV) {
         this.cardCVV = cardCVV;
     }
+
 }
