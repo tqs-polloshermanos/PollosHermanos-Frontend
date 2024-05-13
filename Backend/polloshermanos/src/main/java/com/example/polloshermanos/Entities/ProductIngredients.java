@@ -1,6 +1,6 @@
 package main.java.com.example.polloshermanos.Entities;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "product_ingredients")
