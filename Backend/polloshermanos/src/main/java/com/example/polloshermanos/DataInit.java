@@ -29,9 +29,16 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.time.LocalDate;
 
 // This class is used to initialize the database with some dataS
 
+@Component
 public class DataInit implements CommandLineRunner{
     
     private final IngredientService ingredientService;
@@ -100,7 +107,7 @@ public class DataInit implements CommandLineRunner{
         };
 
         for(Ingredient ingredient : ingredients) {
-            ingredientService.save(ingredient);
+            ingredientService.createIngredient(ingredient);
         }
     }
 
@@ -133,77 +140,77 @@ public class DataInit implements CommandLineRunner{
         };
 
         for(Restaurant restaurant : restaurants) {
-            restaurantService.save(restaurant);
+            restaurantService.createRestaurant(restaurant);
         }
     }
 
     // Product
     private void initializeProducts() {
         Product[] products = {
-            new Product("Pepperoni Pizza", CuisineType.ITALIAN, restaurantService.findByName("Italian Place"), "Pepperoni pizza", 10.99, "img/pepperoni.jpg"),
-            new Product("Cheese Pizza", CuisineType.ITALIAN, restaurantService.findByName("Italian Place"), "Cheese pizza", 9.99, "img/cheese.jpg"),
-            new Product("Margarita Pizza", CuisineType.ITALIAN, restaurantService.findByName("Italian Place"), "Margarita pizza", 11.99, "img/margarita.jpg"),
-            new Product("Hawaiian Pizza", CuisineType.ITALIAN, restaurantService.findByName("Italian Place"), "Hawaiian pizza", 12.99, "img/hawaiian.jpg"),
-            new Product("Vegetarian Pizza", CuisineType.ITALIAN, restaurantService.findByName("Italian Place"), "Vegetarian pizza", 11.99, "img/vegetarian.jpg"),
-            new Product("Meat Lovers Pizza", CuisineType.ITALIAN, restaurantService.findByName("Italian Place"), "Meat lovers pizza", 13.99, "img/meatlovers.jpg"),
-            new Product("Supreme Pizza", CuisineType.ITALIAN, restaurantService.findByName("Italian Place"), "Supreme pizza", 14.99, "img/supreme.jpg"),
-            new Product("Taco Pizza", CuisineType.MEXICAN, restaurantService.findByName("Mexican Place"), "Taco pizza", 11.99, "img/taco.jpg"),
-            new Product("Burrito", CuisineType.MEXICAN, restaurantService.findByName("Mexican Place"), "Burrito", 9.99, "img/burrito.jpg"),
-            new Product("Taco", CuisineType.MEXICAN, restaurantService.findByName("Mexican Place"), "Taco", 2.99, "img/taco.jpg"),
-            new Product("Quesadilla", CuisineType.MEXICAN, restaurantService.findByName("Mexican Place"), "Quesadilla", 8.99, "img/quesadilla.jpg"),
-            new Product("Enchilada", CuisineType.MEXICAN, restaurantService.findByName("Mexican Place"), "Enchilada", 7.99, "img/enchilada.jpg"),
-            new Product("Chimichanga", CuisineType.MEXICAN, restaurantService.findByName("Mexican Place"), "Chimichanga", 10.99, "img/chimichanga.jpg"),
-            new Product("Nachos", CuisineType.MEXICAN, restaurantService.findByName("Mexican Place"), "Nachos", 6.99, "img/nachos.jpg"),
-            new Product("Chinese Fried Rice", CuisineType.CHINESE, restaurantService.findByName("Chinese Place"), "Chinese fried rice", 8.99, "img/friedrice.jpg"),
-            new Product("Orange Chicken", CuisineType.CHINESE, restaurantService.findByName("Chinese Place"), "Orange chicken", 10.99, "img/orangechicken.jpg"),
-            new Product("General Tso's Chicken", CuisineType.CHINESE, restaurantService.findByName("Chinese Place"), "General Tso's chicken", 11.99, "img/generaltsos.jpg"),
-            new Product("Kung Pao Chicken", CuisineType.CHINESE, restaurantService.findByName("Chinese Place"), "Kung pao chicken", 10.99, "img/kungpao.jpg"),
-            new Product("Sweet and Sour Pork", CuisineType.CHINESE, restaurantService.findByName("Chinese Place"), "Sweet and sour pork", 9.99, "img/sweetandsour.jpg"),
-            new Product("Beef and Broccoli", CuisineType.CHINESE, restaurantService.findByName("Chinese Place"), "Beef and broccoli", 11.99, "img/beefandbroccoli.jpg"),
-            new Product("Egg Drop Soup", CuisineType.CHINESE, restaurantService.findByName("Chinese Place"), "Egg drop soup", 4.99, "img/eggdrop.jpg"),
-            new Product("Chicken Tikka Masala", CuisineType.INDIAN, restaurantService.findByName("Indian Place"), "Chicken tikka masala", 12.99, "img/tikkamasala.jpg"),
-            new Product("Butter Chicken", CuisineType.INDIAN, restaurantService.findByName("Indian Place"), "Butter chicken", 11.99, "img/butterchicken.jpg"),
-            new Product("Naan", CuisineType.INDIAN, restaurantService.findByName("Indian Place"), "Naan", 2.99, "img/naan.jpg"),
-            new Product("Samosa", CuisineType.INDIAN, restaurantService.findByName("Indian Place"), "Samosa", 1.99, "img/samosa.jpg"),
-            new Product("Biryani", CuisineType.INDIAN, restaurantService.findByName("Indian Place"), "Biryani", 13.99, "img/biryani.jpg"),
-            new Product("Chole Bhature", CuisineType.INDIAN, restaurantService.findByName("Indian Place"), "Chole bhature", 10.99, "img/cholebhature.jpg"),
-            new Product("American Burger", CuisineType.AMERICAN, restaurantService.findByName("American Place"), "American burger", 9.99, "img/burger.jpg"),
-            new Product("Hot Dog", CuisineType.AMERICAN, restaurantService.findByName("American Place"), "Hot dog", 3.99, "img/hotdog.jpg"),
-            new Product("French Fries", CuisineType.AMERICAN, restaurantService.findByName("American Place"), "French fries", 2.99, "img/fries.jpg"),
-            new Product("Onion Rings", CuisineType.AMERICAN, restaurantService.findByName("American Place"), "Onion rings", 4.99, "img/onionrings.jpg"),
-            new Product("Chicken Wings", CuisineType.AMERICAN, restaurantService.findByName("American Place"), "Chicken wings", 8.99, "img/wings.jpg"),
-            new Product("Chicken Tenders", CuisineType.AMERICAN, restaurantService.findByName("American Place"), "Chicken tenders", 7.99, "img/tenders.jpg"),
-            new Product("Japanese Sushi", CuisineType.JAPANESE, restaurantService.findByName("Japanese Place"), "Japanese sushi", 14.99, "img/sushi.jpg"),
-            new Product("Ramen", CuisineType.JAPANESE, restaurantService.findByName("Japanese Place"), "Ramen", 11.99, "img/ramen.jpg"),
-            new Product("Tempura", CuisineType.JAPANESE, restaurantService.findByName("Japanese Place"), "Tempura", 10.99, "img/tempura.jpg"),
-            new Product("Udon", CuisineType.JAPANESE, restaurantService.findByName("Japanese Place"), "Udon", 12.99, "img/udon.jpg"),
-            new Product("Sashimi", CuisineType.JAPANESE, restaurantService.findByName("Japanese Place"), "Sashimi", 13.99, "img/sashimi.jpg"),
-            new Product("Thai Curry", CuisineType.THAI, restaurantService.findByName("Thai Place"), "Thai curry", 12.99, "img/curry.jpg"),
-            new Product("Pad Thai", CuisineType.THAI, restaurantService.findByName("Thai Place"), "Pad thai", 11.99, "img/padthai.jpg"),
-            new Product("Tom Yum Soup", CuisineType.THAI, restaurantService.findByName("Thai Place"), "Tom yum soup", 5.99, "img/tomyum.jpg"),
-            new Product("Spring Rolls", CuisineType.THAI, restaurantService.findByName("Thai Place"), "Spring rolls", 6.99, "img/springrolls.jpg"),
-            new Product("Papaya Salad", CuisineType.THAI, restaurantService.findByName("Thai Place"), "Papaya salad", 7.99, "img/papayasalad.jpg"),
-            new Product("Big Mac", CuisineType.FAST_FOOD, restaurantService.findByName("McDonald's"), "Big Mac", 4.99, "img/bigmac.jpg"),
-            new Product("Whopper", CuisineType.FAST_FOOD, restaurantService.findByName("Burger King"), "Whopper", 5.99, "img/whopper.jpg"),
-            new Product("Frosty", CuisineType.FAST_FOOD, restaurantService.findByName("Wendy's"), "Frosty", 1.99, "img/frosty.jpg"),
-            new Product("Crunchwrap Supreme", CuisineType.FAST_FOOD, restaurantService.findByName("Taco Bell"), "Crunchwrap supreme", 3.99, "img/crunchwrap.jpg"),
-            new Product("Chicken Sandwich", CuisineType.FAST_FOOD, restaurantService.findByName("KFC"), "Chicken sandwich", 4.99, "img/chickensandwich.jpg"),
-            new Product("Chicken Sandwich", CuisineType.FAST_FOOD, restaurantService.findByName("Popeyes"), "Chicken sandwich", 4.99, "img/chickensandwich.jpg"),
-            new Product("Chicken Sandwich", CuisineType.FAST_FOOD, restaurantService.findByName("Chick-fil-A"), "Chicken sandwich", 4.99, "img/chickensandwich.jpg"),
-            new Product("Sub", CuisineType.FAST_FOOD, restaurantService.findByName("Subway"), "Sub", 5.99, "img/sub.jpg"),
-            new Product("Pizza", CuisineType.FAST_FOOD, restaurantService.findByName("Pizza Hut"), "Pizza", 9.99, "img/pizza.jpg"),
-            new Product("Pizza", CuisineType.FAST_FOOD, restaurantService.findByName("Domino's"), "Pizza", 9.99, "img/pizza.jpg"),
-            new Product("Pizza", CuisineType.FAST_FOOD, restaurantService.findByName("Papa John's"), "Pizza", 9.99, "img/pizza.jpg"),
-            new Product("Pizza", CuisineType.FAST_FOOD, restaurantService.findByName("Little Caesars"), "Pizza", 9.99, "img/pizza.jpg"),
-            new Product("Burrito", CuisineType.FAST_FOOD, restaurantService.findByName("Chipotle"), "Burrito", 7.99, "img/burrito.jpg"),
-            new Product("Coffee", CuisineType.FAST_FOOD, restaurantService.findByName("Starbucks"), "Coffee", 2.99, "img/coffee.jpg"),
-            new Product("Coffee", CuisineType.FAST_FOOD, restaurantService.findByName("Starbucks"), "Coffee", 2.99, "img/coffee.jpg"),
+            new Product("Pepperoni Pizza", CuisineType.ITALIAN, restaurantService.getRestaurantByName("Italian Place"), "Pepperoni pizza", 10.99, "img/pepperoni.jpg"),
+            new Product("Cheese Pizza", CuisineType.ITALIAN, restaurantService.getRestaurantByName("Italian Place"), "Cheese pizza", 9.99, "img/cheese.jpg"),
+            new Product("Margarita Pizza", CuisineType.ITALIAN, restaurantService.getRestaurantByName("Italian Place"), "Margarita pizza", 11.99, "img/margarita.jpg"),
+            new Product("Hawaiian Pizza", CuisineType.ITALIAN, restaurantService.getRestaurantByName("Italian Place"), "Hawaiian pizza", 12.99, "img/hawaiian.jpg"),
+            new Product("Vegetarian Pizza", CuisineType.ITALIAN, restaurantService.getRestaurantByName("Italian Place"), "Vegetarian pizza", 11.99, "img/vegetarian.jpg"),
+            new Product("Meat Lovers Pizza", CuisineType.ITALIAN, restaurantService.getRestaurantByName("Italian Place"), "Meat lovers pizza", 13.99, "img/meatlovers.jpg"),
+            new Product("Supreme Pizza", CuisineType.ITALIAN, restaurantService.getRestaurantByName("Italian Place"), "Supreme pizza", 14.99, "img/supreme.jpg"),
+            new Product("Taco Pizza", CuisineType.MEXICAN, restaurantService.getRestaurantByName("Mexican Place"), "Taco pizza", 11.99, "img/taco.jpg"),
+            new Product("Burrito", CuisineType.MEXICAN, restaurantService.getRestaurantByName("Mexican Place"), "Burrito", 9.99, "img/burrito.jpg"),
+            new Product("Taco", CuisineType.MEXICAN, restaurantService.getRestaurantByName("Mexican Place"), "Taco", 2.99, "img/taco.jpg"),
+            new Product("Quesadilla", CuisineType.MEXICAN, restaurantService.getRestaurantByName("Mexican Place"), "Quesadilla", 8.99, "img/quesadilla.jpg"),
+            new Product("Enchilada", CuisineType.MEXICAN, restaurantService.getRestaurantByName("Mexican Place"), "Enchilada", 7.99, "img/enchilada.jpg"),
+            new Product("Chimichanga", CuisineType.MEXICAN, restaurantService.getRestaurantByName("Mexican Place"), "Chimichanga", 10.99, "img/chimichanga.jpg"),
+            new Product("Nachos", CuisineType.MEXICAN, restaurantService.getRestaurantByName("Mexican Place"), "Nachos", 6.99, "img/nachos.jpg"),
+            new Product("Chinese Fried Rice", CuisineType.CHINESE, restaurantService.getRestaurantByName("Chinese Place"), "Chinese fried rice", 8.99, "img/friedrice.jpg"),
+            new Product("Orange Chicken", CuisineType.CHINESE, restaurantService.getRestaurantByName("Chinese Place"), "Orange chicken", 10.99, "img/orangechicken.jpg"),
+            new Product("General Tso's Chicken", CuisineType.CHINESE, restaurantService.getRestaurantByName("Chinese Place"), "General Tso's chicken", 11.99, "img/generaltsos.jpg"),
+            new Product("Kung Pao Chicken", CuisineType.CHINESE, restaurantService.getRestaurantByName("Chinese Place"), "Kung pao chicken", 10.99, "img/kungpao.jpg"),
+            new Product("Sweet and Sour Pork", CuisineType.CHINESE, restaurantService.getRestaurantByName("Chinese Place"), "Sweet and sour pork", 9.99, "img/sweetandsour.jpg"),
+            new Product("Beef and Broccoli", CuisineType.CHINESE, restaurantService.getRestaurantByName("Chinese Place"), "Beef and broccoli", 11.99, "img/beefandbroccoli.jpg"),
+            new Product("Egg Drop Soup", CuisineType.CHINESE, restaurantService.getRestaurantByName("Chinese Place"), "Egg drop soup", 4.99, "img/eggdrop.jpg"),
+            new Product("Chicken Tikka Masala", CuisineType.INDIAN, restaurantService.getRestaurantByName("Indian Place"), "Chicken tikka masala", 12.99, "img/tikkamasala.jpg"),
+            new Product("Butter Chicken", CuisineType.INDIAN, restaurantService.getRestaurantByName("Indian Place"), "Butter chicken", 11.99, "img/butterchicken.jpg"),
+            new Product("Naan", CuisineType.INDIAN, restaurantService.getRestaurantByName("Indian Place"), "Naan", 2.99, "img/naan.jpg"),
+            new Product("Samosa", CuisineType.INDIAN, restaurantService.getRestaurantByName("Indian Place"), "Samosa", 1.99, "img/samosa.jpg"),
+            new Product("Biryani", CuisineType.INDIAN, restaurantService.getRestaurantByName("Indian Place"), "Biryani", 13.99, "img/biryani.jpg"),
+            new Product("Chole Bhature", CuisineType.INDIAN, restaurantService.getRestaurantByName("Indian Place"), "Chole bhature", 10.99, "img/cholebhature.jpg"),
+            new Product("American Burger", CuisineType.AMERICAN, restaurantService.getRestaurantByName("American Place"), "American burger", 9.99, "img/burger.jpg"),
+            new Product("Hot Dog", CuisineType.AMERICAN, restaurantService.getRestaurantByName("American Place"), "Hot dog", 3.99, "img/hotdog.jpg"),
+            new Product("French Fries", CuisineType.AMERICAN, restaurantService.getRestaurantByName("American Place"), "French fries", 2.99, "img/fries.jpg"),
+            new Product("Onion Rings", CuisineType.AMERICAN, restaurantService.getRestaurantByName("American Place"), "Onion rings", 4.99, "img/onionrings.jpg"),
+            new Product("Chicken Wings", CuisineType.AMERICAN, restaurantService.getRestaurantByName("American Place"), "Chicken wings", 8.99, "img/wings.jpg"),
+            new Product("Chicken Tenders", CuisineType.AMERICAN, restaurantService.getRestaurantByName("American Place"), "Chicken tenders", 7.99, "img/tenders.jpg"),
+            new Product("Japanese Sushi", CuisineType.JAPANESE, restaurantService.getRestaurantByName("Japanese Place"), "Japanese sushi", 14.99, "img/sushi.jpg"),
+            new Product("Ramen", CuisineType.JAPANESE, restaurantService.getRestaurantByName("Japanese Place"), "Ramen", 11.99, "img/ramen.jpg"),
+            new Product("Tempura", CuisineType.JAPANESE, restaurantService.getRestaurantByName("Japanese Place"), "Tempura", 10.99, "img/tempura.jpg"),
+            new Product("Udon", CuisineType.JAPANESE, restaurantService.getRestaurantByName("Japanese Place"), "Udon", 12.99, "img/udon.jpg"),
+            new Product("Sashimi", CuisineType.JAPANESE, restaurantService.getRestaurantByName("Japanese Place"), "Sashimi", 13.99, "img/sashimi.jpg"),
+            new Product("Thai Curry", CuisineType.THAI, restaurantService.getRestaurantByName("Thai Place"), "Thai curry", 12.99, "img/curry.jpg"),
+            new Product("Pad Thai", CuisineType.THAI, restaurantService.getRestaurantByName("Thai Place"), "Pad thai", 11.99, "img/padthai.jpg"),
+            new Product("Tom Yum Soup", CuisineType.THAI, restaurantService.getRestaurantByName("Thai Place"), "Tom yum soup", 5.99, "img/tomyum.jpg"),
+            new Product("Spring Rolls", CuisineType.THAI, restaurantService.getRestaurantByName("Thai Place"), "Spring rolls", 6.99, "img/springrolls.jpg"),
+            new Product("Papaya Salad", CuisineType.THAI, restaurantService.getRestaurantByName("Thai Place"), "Papaya salad", 7.99, "img/papayasalad.jpg"),
+            new Product("Big Mac", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("McDonald's"), "Big Mac", 4.99, "img/bigmac.jpg"),
+            new Product("Whopper", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Burger King"), "Whopper", 5.99, "img/whopper.jpg"),
+            new Product("Frosty", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Wendy's"), "Frosty", 1.99, "img/frosty.jpg"),
+            new Product("Crunchwrap Supreme", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Taco Bell"), "Crunchwrap supreme", 3.99, "img/crunchwrap.jpg"),
+            new Product("Chicken Sandwich", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("KFC"), "Chicken sandwich", 4.99, "img/chickensandwich.jpg"),
+            new Product("Chicken Sandwich", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Popeyes"), "Chicken sandwich", 4.99, "img/chickensandwich.jpg"),
+            new Product("Chicken Sandwich", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Chick-fil-A"), "Chicken sandwich", 4.99, "img/chickensandwich.jpg"),
+            new Product("Sub", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Subway"), "Sub", 5.99, "img/sub.jpg"),
+            new Product("Pizza", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Pizza Hut"), "Pizza", 9.99, "img/pizza.jpg"),
+            new Product("Pizza", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Domino's"), "Pizza", 9.99, "img/pizza.jpg"),
+            new Product("Pizza", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Papa John's"), "Pizza", 9.99, "img/pizza.jpg"),
+            new Product("Pizza", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Little Caesars"), "Pizza", 9.99, "img/pizza.jpg"),
+            new Product("Burrito", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Chipotle"), "Burrito", 7.99, "img/burrito.jpg"),
+            new Product("Coffee", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Starbucks"), "Coffee", 2.99, "img/coffee.jpg"),
+            new Product("Coffee", CuisineType.FAST_FOOD, restaurantService.getRestaurantByName("Starbucks"), "Coffee", 2.99, "img/coffee.jpg"),
             // number of products: 60
             // add more products if needed
         };
 
         for(Product product : products) {
-            productService.save(product);
+            productService.createProduct(product);
         }
     }
 
@@ -265,7 +272,7 @@ public class DataInit implements CommandLineRunner{
         // number of product_ingredients: 51
         // add more product_ingredients if needed
         
-        List<Product> products = productService.getAllProducts();
+        List<Product> products = productService.getProducts();
         List<Ingredient> ingredients = ingredientService.getAllIngredients();
         
         for (Product product : products) {
@@ -274,7 +281,7 @@ public class DataInit implements CommandLineRunner{
                 List<Ingredient> productIngredients = new ArrayList<>();
                 for (String ingredientName : ingredientNames) {
                     for (Ingredient ingredient : ingredients) {
-                        if (ingredient.getName().equals(ingredientName)) {
+                        if (ingredient.getIngredientName().equals(ingredientName)) {
                             productIngredients.add(ingredient);
                             break;
                         }
@@ -282,8 +289,9 @@ public class DataInit implements CommandLineRunner{
                 }
 
                 for (Ingredient ingredient : productIngredients) {
-                    ProductIngredients productIngredient = new ProductIngredients(product, ingredient);
-                    productIngredientsService.save(productIngredient);
+                    int quantity = random.nextInt(5) + 1;
+                    ProductIngredients productIngredient = new ProductIngredients(ingredient, product, quantity);
+                    productIngredientsService.createProductIngredients(productIngredient);
                 }
             }
         }
@@ -293,8 +301,8 @@ public class DataInit implements CommandLineRunner{
     private void initializeUsers() {
         User[] users = {
             new User("admin@polloshermanos.com", "adminPassword", RoleType.ADMIN),
-            new User("test_user1@gmail.com", "test_user1Password", RoleType.USER),
-            new User("test_user2@gmail.com", "test_user2Password", RoleType.USER),
+            new User("test_user1@gmail.com", "test_user1Password", RoleType.CUSTOMER),
+            new User("test_user2@gmail.com", "test_user2Password", RoleType.CUSTOMER),
             new User("test_employee1@polloshermanos.com", "test_employee1Password", RoleType.EMPLOYEE),
             new User("test_employee2@polloshermanos.com", "test_employee2Password", RoleType.EMPLOYEE),
             // number of users: 5
@@ -302,25 +310,25 @@ public class DataInit implements CommandLineRunner{
         };
 
         for(User user : users) {
-            userService.save(user);
+            userService.createUser(user);
         }
     }
 
     // OrderDetails
     private void initializeOrderDetails() {
-        List<Product> products = productService.getAllProducts();
-        List<User> users = userService.getAllUsers();
+        List<Product> products = productService.getProducts();
+        List<User> users = userService.getUsers();
         List<Order> orders = orderService.getAllOrders();
 
-        orders_size = 5; // number of init orders
+        int orders_size = 5; // number of init orders
 
         for (int i = 0; i < orders_size; i++) {
             int numOrderDetails = random.nextInt(5) + 1;
-            for (int i = 0; i < numOrderDetails; i++) {
+            for (int j = 0; j < numOrderDetails; j++) {
                 Product product = products.get(random.nextInt(products.size()));
                 int quantity = random.nextInt(5) + 1;
-                OrderDetail orderDetail = new OrderDetail(order, product, quantity, product.getPrice()*quantity);
-                orderDetailService.save(orderDetail);
+                OrderDetail orderDetail = new OrderDetail(product, quantity, product.getPrice()*quantity);
+                orderDetailService.createOrderDetail(orderDetail);
             }
         }
         // number of order_details: 5
@@ -329,8 +337,8 @@ public class DataInit implements CommandLineRunner{
     
     // Order
     private void initializeOrders() {
-        List<User> users = userService.getAllUsers();
-        List<Restaurant> restaurants = restaurantService.getAllRestaurants();
+        List<User> users = userService.getUsers();
+        List<Restaurant> restaurants = restaurantService.getRestaurants();
         List<OrderDetail> orderDetails = orderDetailService.getAllOrderDetails();
 
         for (int i = 0; i < 5; i++) {
@@ -340,9 +348,9 @@ public class DataInit implements CommandLineRunner{
             double totalAmount = 0;
             for (OrderDetail orderDetail : orderDetails) {
                 totalAmount += orderDetail.getPrice();
+                Order order = new Order(user, restaurant, orderDetail, orderDate, totalAmount);
+                orderService.createOrder(order);
             }
-            Order order = new Order(user, restaurant, orderDetail, orderDate, totalAmount);
-            orderService.save(order);
         }
         // number of orders: 5
         // add more orders if needed
@@ -357,7 +365,7 @@ public class DataInit implements CommandLineRunner{
             Status status = statuses.get(random.nextInt(statuses.size()));
             LocalDateTime statusDate = LocalDateTime.now();
             OrderStatus orderStatus = new OrderStatus(order, status, statusDate);
-            orderStatusService.save(orderStatus);
+            orderStatusService.createOrderStatus(orderStatus);
         }
         // number of order_statuses: 5
         // add more order_statuses if needed
@@ -375,10 +383,23 @@ public class DataInit implements CommandLineRunner{
             LocalDate cardExpiryDate = LocalDate.of(2023, 12, 31);
             String cardCVV = "123";
             Payment payment = new Payment(order, paymentDate, amount, cardNumber, cardHolderName, cardExpiryDate, cardCVV);
-            paymentService.save(payment);
+            paymentService.createPayment(payment);
         }
         // number of payments: 5
         // add more payments if needed
     }
     
+
+    @Override
+    public void run(String... args) throws Exception {
+        initializeIngredients();
+        initializeRestaurants();
+        initializeProducts();
+        initializeProductIngredients();
+        initializeUsers();
+        initializeOrderDetails();
+        initializeOrders();
+        initializeOrderStatuses();
+        initializePayments();
+    }
 }
