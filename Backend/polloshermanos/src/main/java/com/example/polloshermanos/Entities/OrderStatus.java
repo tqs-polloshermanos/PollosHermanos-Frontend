@@ -64,4 +64,50 @@ public class OrderStatus {
         this.statusDate = statusDate;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((orderStatusId == null) ? 0 : orderStatusId.hashCode());
+        result = prime * result + ((order == null) ? 0 : order.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        result = prime * result + ((statusDate == null) ? 0 : statusDate.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        OrderStatus other = (OrderStatus) obj;
+        if (orderStatusId == null) {
+            if (other.orderStatusId != null)
+                return false;
+        } else if (!orderStatusId.equals(other.orderStatusId))
+            return false;
+        if (order == null) {
+            if (other.order != null)
+                return false;
+        } else if (!order.equals(other.order))
+            return false;
+        if (status != other.status)
+            return false;
+        if (statusDate == null) {
+            if (other.statusDate != null)
+                return false;
+        } else if (!statusDate.equals(other.statusDate))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderStatus [orderStatusId=" + orderStatusId + ", order=" + order + ", status=" + status
+                + ", statusDate=" + statusDate + "]";
+    }
+
 }

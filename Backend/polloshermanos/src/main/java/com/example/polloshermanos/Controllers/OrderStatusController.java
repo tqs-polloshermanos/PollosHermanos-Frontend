@@ -7,11 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/orderStatus")
 public class OrderStatusController {
+
+    private final Logger logger = LoggerFactory.getLogger(OrderStatusController.class);
 
     private final OrderStatusService orderStatusService;
 
@@ -22,9 +27,9 @@ public class OrderStatusController {
 
     @GetMapping
     public ResponseEntity<List<OrderStatus>> getAllOrderStatus() {
+        logger.info("GET request received for all order statuses.");
         List<OrderStatus> orderStatusList = orderStatusService.getAllOrderStatus();
-        return new ResponseEntity<>(orderStatusList, HttpStatus.OK);
-    }
+        return ResponseEntity.ok().body(orderStatusList);    }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderStatus> getOrderStatusById(@PathVariable Long id) {
