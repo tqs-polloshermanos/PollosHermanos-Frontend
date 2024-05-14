@@ -50,4 +50,5 @@ public class PaymentService {
             logger.error("Payment with id {} not found", id);
             throw new EntityNotFoundException("Payment with id " + id + " not found");
         }
+    }
 }

@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/users")
@@ -75,6 +77,22 @@ public class UserController {
             return new ResponseEntity<>(true, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String password = credentials.get("password");
+        logger.info("POST request received for user login with email: {}", email);
+
+        Optional<User> user = userService.authenticateUser(email, password);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(Map.of("message", "Login successful", "user", user.get()));
+        }
+        else {
+            logger.warn("Invalid login attemp for email: {}", email);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid email or password"));
         }
     }
 }

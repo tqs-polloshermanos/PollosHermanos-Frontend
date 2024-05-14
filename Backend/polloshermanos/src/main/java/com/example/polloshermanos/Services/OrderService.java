@@ -47,7 +47,7 @@ public class OrderService {
 
     @Transactional
     public void createOrder(User user, Long restaurantId, List<OrderDetail> orderDetail, LocalDateTime orderDate) {
-        logger.info("Creating new order for user id {} at restaurant id {}", user.getId(), restaurantId);
+        logger.info("Creating new order for user id {} at restaurant id {}", user.getUserId(), restaurantId);
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new EntityNotFoundException("Restaurant not found"));
 
@@ -61,7 +61,7 @@ public class OrderService {
 
         // Save the order
         orderRepository.save(order);
-        logger.info("Order created successfully with id {}", order.getId());
+        logger.info("Order created successfully with id {}", order.getOrderId());
     }
     
     @Transactional
