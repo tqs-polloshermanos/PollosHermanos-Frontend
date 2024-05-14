@@ -47,7 +47,7 @@ public class OrderService {
 
     @Transactional
     public void createOrder(User user, Long restaurantId, List<OrderDetail> orderDetail, LocalDateTime orderDate) {
-        logger.info("Creating new order for user id {} at restaurant id {}", user.getId(), restaurantId);
+        logger.info("Creating new order for user id {} at restaurant id {}", user.getUserId(), restaurantId);
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new EntityNotFoundException("Restaurant not found"));
 
@@ -61,7 +61,7 @@ public class OrderService {
 
         // Save the order
         orderRepository.save(order);
-        logger.info("Order created successfully with id {}", order.getId());
+        logger.info("Order created successfully with id {}", order.getOrderId());
     }
     
     @Transactional
@@ -74,120 +74,4 @@ public class OrderService {
             throw new EntityNotFoundException("Order with id " + id + " not found");
         }
     }
-}
-
-OrderStatusService
-
-java
-
-package main.java.com.example.polloshermanos.Services;
-
-import main.java.com.example.polloshermanos.Entities.OrderStatus;
-import main.java.com.example.polloshermanos.Repositories.OrderStatusRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
-import java.util.Optional;
-import javax.persistence.EntityNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
-
-@Service
-public class OrderStatusService {
-
-    private static final Logger logger = LoggerFactory.getLogger(OrderStatusService.class);
-
-    private final OrderStatusRepository orderStatusRepository;
-
-    @Autowired
-    public OrderStatusService(OrderStatusRepository orderStatusRepository) {
-        this.orderStatusRepository = orderStatusRepository;
-    }
-
-    public List<OrderStatus> getAllOrderStatus() {
-        logger.info("Fetching all order statuses");
-        return orderStatusRepository.findAll();
-    }
-
-    public Optional<OrderStatus> getOrderStatusById(Long id) {
-        logger.info("Fetching order status with id {}", id);
-        return orderStatusRepository.findById(id);
-    }
-
-    public OrderStatus createOrderStatus(OrderStatus orderStatus) {
-        logger.info("Creating new order status with name {}", orderStatus.getStatus());
-        return orderStatusRepository.save(orderStatus);
-    }
-
-    @Transactional
-    public void deleteOrderStatus(Long id) {
-        logger.info("Deleting order status with id {}", id);
-        if (orderStatusRepository.existsById(id)) {
-            orderStatusRepository.deleteById(id);
-        } else {
-            logger.error("OrderStatus with id {} not found", id);
-            throw new EntityNotFoundException("OrderStatus with id " + id + " not found");
-        }
-    }
-}
-
-PaymentService
-
-java
-
-package main.java.com.example.polloshermanos.Services;
-
-import main.java.com.example.polloshermanos.Entities.Payment;
-import main.java.com.example.polloshermanos.Repositories.PaymentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
-import java.util.Optional;
-import javax.persistence.EntityNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
-
-@Service
-public class PaymentService {
-
-    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
-
-    private final PaymentRepository paymentRepository;
-
-    @Autowired
-    public PaymentService(PaymentRepository paymentRepository) {
-        this.paymentRepository = paymentRepository;
-    }
-
-    public List<Payment> getAllPayments() {
-        logger.info("Fetching all payments");
-        return paymentRepository.findAll();
-    }
-
-    public Optional<Payment> getPaymentById(Long id) {
-        logger.info("Fetching payment with id {}", id);
-        return paymentRepository.findById(id);
-    }
-
-    public Payment createPayment(Payment payment) {
-        logger.info("Creating new payment with amount {}", payment.getAmount());
-        return paymentRepository.save(payment);
-    }
-
-    @Transactional
-    public void deletePayment(Long id) {
-        logger.info("Deleting payment with id {}", id);
-        if (paymentRepository.existsById(id)) {
-            paymentRepository.deleteById(id);
-        } else {
-            logger.error("Payment with id {} not found", id);
-            throw new EntityNotFoundException("Payment with id " + id + " not found");
-        }
-    
 }

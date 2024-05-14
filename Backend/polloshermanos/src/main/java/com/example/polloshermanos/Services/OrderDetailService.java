@@ -37,7 +37,7 @@ public class OrderDetailService {
     }
 
     public OrderDetail createOrderDetail(OrderDetail orderDetail) {
-        logger.info("Creating new order detail for order id {}", orderDetail.getOrder().getId());
+        logger.info("Creating new order detail for order id {}", orderDetail.getOrder().getOrderId());
         return orderDetailRepository.save(orderDetail);
     }
 
