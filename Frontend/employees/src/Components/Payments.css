@@ -1,0 +1,74 @@
+.payments-page {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .search-order {
+    margin-bottom: 20px;
+  }
+  
+  .search-order label,
+  .order-details label {
+    margin-right: 10px;
+    font-size: 1.5em;
+  }
+  
+  .search-order input {
+    padding: 10px;
+    font-size: 1.5em;
+    margin-right: 10px;
+  }
+  
+  .search-button,
+  .confirm-button {
+    padding: 10px 20px;
+    background-color: green;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .search-button:hover,
+  .confirm-button:hover {
+    background-color: darkgreen;
+  }
+  
+  .order-details {
+    margin-top: 20px;
+    display: inline-block;
+    text-align: left;
+    padding: 20px;
+    width: 50%;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .order-details p {
+    margin: 10px 0;
+  }
+  
+  .order-details select {
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 1.2em;
+  }
+
+  .paid {
+    margin-top: 20px;
+    text-align: center;
+    padding: 20px;
+    width: 50%;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  
