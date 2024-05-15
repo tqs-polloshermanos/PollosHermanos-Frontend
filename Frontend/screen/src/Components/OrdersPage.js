@@ -1,19 +1,27 @@
 import React from 'react';
 import './OrdersPage.css'; // Import CSS file
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { useHistory, useLocation } from 'react-router-dom'; // Import useHistory and useLocation hooks
 
 function OrdersPage() {
+  const history = useHistory();
+  const location = useLocation();
+  const { selectedRestaurant } = location.state || {};
+
   // Dummy data for orders
   const inProgressOrders = [101, 102, 103, 104];
   const servingOrders = [201, 202, 203];
 
+  const handleCheckOrderStatus = () => {
+    history.push('/checkorderstatus', { selectedRestaurantName: selectedRestaurant.name });
+  };
+
   return (
     <div className="orders-page">
-      <h1>Restaurant Orders</h1>
+      <h1>{selectedRestaurant ? `${selectedRestaurant.name} Orders` : 'Restaurant Orders'}</h1>
       <div className="check-status">
-        <a href="/checkorderstatus" className="check-status-btn">
+        <button onClick={handleCheckOrderStatus} className="check-status-btn">
           Check your order status here
-        </a>
+        </button>
       </div>
       <div className="orders-tables">
         <div className="orders-table">
