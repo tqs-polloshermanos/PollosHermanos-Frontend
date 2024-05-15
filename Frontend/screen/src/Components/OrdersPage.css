@@ -1,0 +1,53 @@
+.orders-page {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .orders-tables {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .orders-table {
+    width: 45%;
+  }
+  
+  .orders-table h2 {
+    margin-bottom: 10px;
+  }
+  
+  .orders-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: orange;
+  }
+  
+  .orders-table th, .orders-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    background-color: #ffa500; 
+  }
+  
+  .orders-table th {
+    background-color: #ff8c00;
+  }
+  
+  .check-status {
+    margin-top: 20px;
+  }
+  
+  .check-status-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .check-status-btn:hover {
+    background-color: #555;
+  }
+  

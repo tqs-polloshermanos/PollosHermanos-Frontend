@@ -38,7 +38,7 @@ public class OrderDetailController {
         OrderDetail orderDetail = orderDetailService.getOrderDetailById(id)
                 .orElseThrow(() -> {
                     logger.warn("Order detail not found with ID: {}", id);
-                    new RuntimeException("Order Detail not found with id: {}" + id);
+                    return new RuntimeException("Order Detail not found with id: {}" + id);
                 });
         return ResponseEntity.ok().body(orderDetail);
     }
@@ -47,13 +47,13 @@ public class OrderDetailController {
     public ResponseEntity<OrderDetail> createOrderDetail(@RequestBody OrderDetail orderDetail) {
         logger.info("POST request received to create a new order detail.");
         OrderDetail newOrderDetail = orderDetailService.createOrderDetail(orderDetail);
-        return new ResponseEntity<>(newOrderDetail, HttpStatus.CREATED).body(newOrderDetail);
+        return ResponseEntity<>(newOrderDetail, HttpStatus.CREATED).body(newOrderDetail);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOrderDetail(@PathVariable Long id) {
         logger.info("DELETE request received to delete order detail with ID: {}", id);
         orderDetailService.deleteOrderDetail(id);
-        return new ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
 }

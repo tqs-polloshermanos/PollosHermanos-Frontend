@@ -37,7 +37,7 @@ public class RestaurantService {
     }
 
     public Restaurant createRestaurant(Restaurant restaurant) {
-        logger.info("Creating new restaurant with name {}", restaurant.getName());
+        logger.info("Creating new restaurant with name {}", restaurant.getRestaurantName());
         return restaurantRepository.save(restaurant);
     }
 

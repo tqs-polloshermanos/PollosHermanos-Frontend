@@ -1,0 +1,51 @@
+.check-order-status-page {
+    padding: 20px;
+    text-align: center;
+  }
+
+
+  .order-status-container {
+    background-color:orange;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 40px;
+    width: 90%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 100px auto 0;
+  }
+  
+  .order-status-form {
+    margin-top: 20px;
+  }
+  
+  .order-status-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .order-status-form input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .order-status-form button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .order-status-form button:hover {
+    background-color: #555;
+  }
+  
+  .order-status-result {
+    margin-top: 20px;
+  }
+  

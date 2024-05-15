@@ -37,7 +37,7 @@ public class ProductIngredientsService {
     }
 
     public ProductIngredients createProductIngredients(ProductIngredients productIngredients) {
-        logger.info("Creating new product ingredients for product id {}", productIngredients.getProduct().getId());
+        logger.info("Creating new product ingredients for product id {}", productIngredients.getProduct().getProductId());
         return productIngredientsRepository.save(productIngredients);
     }
 
