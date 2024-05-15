@@ -47,7 +47,7 @@ public class OrderDetailController {
     public ResponseEntity<OrderDetail> createOrderDetail(@RequestBody OrderDetail orderDetail) {
         logger.info("POST request received to create a new order detail.");
         OrderDetail newOrderDetail = orderDetailService.createOrderDetail(orderDetail);
-        return ResponseEntity<>(newOrderDetail, HttpStatus.CREATED).body(newOrderDetail);
+        return new ResponseEntity<>(newOrderDetail, HttpStatus.CREATED).body(newOrderDetail);
     }
 
     @DeleteMapping("/{id}")
