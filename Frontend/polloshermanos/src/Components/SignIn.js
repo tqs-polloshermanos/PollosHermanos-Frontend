@@ -25,6 +25,16 @@ function Signin() {
     console.log("Password:", password);
     console.log("Confirm Password:", confirmPassword);
     // You can add further logic here, such as sending the data to a backend server for user registration
+    if (!email.includes('@')) {
+      setError('Please enter a valid email');
+      alert("Please enter a valid email");
+      return;
+    }
+    if (password != confirmPassword ) {
+      setError('The passwords do not match')
+      alert('The passwords do not match');
+      return;
+    }
   };
 
   return (
