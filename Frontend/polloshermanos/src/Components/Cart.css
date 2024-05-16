@@ -84,3 +84,15 @@
         background-color: rgb(255, 0, 0);
     }
   
+
+  .login-message {
+    margin-top: 200px;
+  }
+  
+  .login-button {
+    font-size: 25px;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  

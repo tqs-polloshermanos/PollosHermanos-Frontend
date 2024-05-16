@@ -1,7 +1,8 @@
 import React from 'react';
 import './History.css'; // Import CSS file
+import { useHistory } from 'react-router-dom';
 
-function History() {
+function History({ isAuthenticated }) {
   // Dummy data for demonstration
   const purchases = [
     { id: 1, meal: 'Spaghetti', price: '$10', date: '2024-05-12', img: 'spaghetti.jpg' },
@@ -10,10 +11,26 @@ function History() {
     // Add more purchases as needed
   ];
 
+  const history = useHistory();
+
   const handleReorder = (mealName) => {
     // Logic to reorder the selected meal
     console.log('Reordering:', mealName);
   };
+
+  const handleLogin = () => {
+    // Go to login page
+    history.push('/login');
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className='login-message'>
+        <h2>Please log in to view your orders history.</h2>
+        <button className='login-button' onClick={handleLogin}>Login</button>
+      </div>
+    );
+  }
 
   return (
     <div className="history-container">

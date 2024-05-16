@@ -5,6 +5,7 @@ function Menu() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cuisineType, setCuisineType] = useState('');
 
+
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };

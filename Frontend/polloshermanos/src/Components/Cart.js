@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import './Cart.css'; // Import CSS file
+import { useHistory } from 'react-router-dom';
 
-function Cart() {
+function Cart({ isAuthenticated }) {
   const [cartItems, setCartItems] = useState([
     { id: 1, name: 'Pizza', price: 10, quantity: 2, image: 'pizza.jpg' },
     { id: 2, name: 'Burger', price: 8, quantity: 1, image: 'burger.jpg' },
     { id: 3, name: 'Salad', price: 6, quantity: 1, image: 'salad.jpg' },
   ]);
+
+  const history = useHistory();
 
   const handleIncreaseQuantity = (itemId) => {
     setCartItems(prevItems =>
@@ -42,6 +45,20 @@ function Cart() {
 
   // Calculate total price
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  const handleLogin = () => {
+    // Go to login page
+    history.push('/login');
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className='login-message'>
+        <h2>Please log in to be able to use the cart.</h2>
+        <button className='login-button' onClick={handleLogin}>Login</button>
+      </div>
+    );
+  }
 
   return (
     <div className="cart-container">
