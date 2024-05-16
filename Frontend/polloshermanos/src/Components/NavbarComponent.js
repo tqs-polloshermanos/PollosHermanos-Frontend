@@ -3,8 +3,11 @@ import React from 'react';
 import './NavbarComponent.css'; // Import CSS file
 import cartImage from './img/cart.png'; // Import the cart image
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { useAuth } from './AuthContext';
 
 function NavbarComponent() {
+  const { isAuthenticated, logout } = useAuth();
+
   return (
     <nav className="navbar">
       <div className="container">
@@ -24,7 +27,13 @@ function NavbarComponent() {
             </a>
           </li>
         </ul>
-        <a href="/login" className="login-btn nav-link">Login/Sign-up</a>
+        <ul>
+          {isAuthenticated ? (
+            <a href="/logout" className="login-btn nav-link">Logout</a>
+          ): (
+            <a href="/login" className="login-btn nav-link">Login/Sign-up</a>
+            )}
+        </ul>
       </div>
     </nav>
   );
