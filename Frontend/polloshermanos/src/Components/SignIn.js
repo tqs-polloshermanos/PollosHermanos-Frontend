@@ -5,6 +5,7 @@ function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -20,6 +21,7 @@ function Signin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
     // Handle sign-in logic here
     console.log("Email:", email);
     console.log("Password:", password);
