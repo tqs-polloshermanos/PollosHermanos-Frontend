@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useCart } from './CartContext';
 import './RestaurantMenu.css'; // Import CSS file
 
 function RestaurantMenu() {
@@ -38,10 +39,11 @@ function RestaurantMenu() {
   ];
 
   const { id } = useParams();
+  const { addItemToCart } = useCart();
   // const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [cart, setCart] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [quantities, setQuantities] = useState({});
 
   const restaurant = dummyData.find(restaurant => restaurant.id === parseInt(id));
@@ -72,9 +74,19 @@ function RestaurantMenu() {
     });
   };
 
-  const addToCart = (menuItem) => {
-    const quantity = quantities[menuItem] || 1;
-    setCart([...cart, { ...menuItem, quantity }]);
+  const selectItem = (menuItem) => {
+    const existingItem = selectedItems.find(item => item.id ==menuItem.id);
+    if (existingItem) {
+      setSelectedItems(selectedItems.map(item => item.id == menuItem.id ? {...item, quantity: quantities[menuItem.id] || 1}: item));
+    }
+    else {
+      setSelectedItems([...selectedItems, { ...menuItem, quantity: quantities[menuItem.id] || 1}]);
+    }
+  };
+
+  const handleBuy = () => {
+    selectedItems.forEach(item => addItemToCart(item));
+    window.location.href = `/cart`;
   };
 
   // if (loading) {
@@ -88,33 +100,54 @@ function RestaurantMenu() {
   return (
     <div className="menu-page-container">
       <h2>{restaurant ? `${restaurant.name}` : 'Select a Restaurant'}</h2>
-      <div className="menu-items">
-        {restaurant && restaurant.menu ? (
-          restaurant.menu.map((item) => (
-            <div className="menu-item" key={item.id}>
-              <img src={item.image} alt={item.name} />
-              <div className="item-details">
-                <h3>{item.name}</h3>
-                <p>{item.description}</p>
-                <p>${item.price.toFixed(2)}</p>
-                <div className="add-to-cart">
-                  <input
-                    type="number"
-                    min="1"
-                    defaultValue="1"
-                    value = {quantities[item.id] || 1}
-                    onChange={(e) => handleQuantityChanges(item.id, parseInt(e.target.value))}
-                  />
-                  <button onClick={() => addToCart(item)}>
-                    Add to Cart
-                  </button>
+      <div className='menu-container'>
+        <div className="menu-items">
+          {restaurant && restaurant.menu ? (
+            restaurant.menu.map((item) => (
+              <div className="menu-item" key={item.id}>
+                <img src={item.image} alt={item.name} />
+                <div className="item-details">
+                  <h3>{item.name}</h3>
+                  <p>{item.description}</p>
+                  <p>${item.price.toFixed(2)}</p>
+                  <div className="add-to-cart">
+                    <input
+                      type="number"
+                      min="1"
+                      value = {quantities[item.id] || 1}
+                      onChange={(e) => handleQuantityChanges(item.id, parseInt(e.target.value))}
+                    />
+                    <button onClick={() => selectItem(item)}>
+                      Select to add
+                    </button>
+                  </div>
                 </div>
               </div>
+            ))
+          ) : (
+            <p>No menu items available</p>
+          )}
+        </div>
+        <div className='side-form'>
+          {selectedItems.length > 0 && (
+            <div className='side-form2'>
+              <h3>Selected Items</h3>
+              <ul>
+                {selectedItems.map(item => (
+                  <li key={item.id} className="selected-item">
+                    <div className="selected-item-details">
+                      <span>{item.name}:  ${(item.price * item.quantity).toFixed(2)} x {item.quantity}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div className="total-price">
+                Total: ${selectedItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
+              </div>
+              <button onClick={handleBuy}>Buy</button>
             </div>
-          ))
-        ) : (
-          <p>No menu items available</p>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
