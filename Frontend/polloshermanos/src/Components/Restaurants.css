@@ -73,4 +73,11 @@
   button:hover {
     background-color: #555;
   }
+
+  .no-restaurants-message {
+    font-size: 20px;
+    font-style: italic;
+    color: #000000;
+  }
+  
   

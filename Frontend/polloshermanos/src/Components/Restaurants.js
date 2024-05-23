@@ -63,13 +63,17 @@ function Restaurants() {
         {error && <p>Error: {error.message}</p>}
         {!loading && !error && (
           <div className="restaurant-list">
-              {filteredRestaurants.map((restaurant) => (
+            {filteredRestaurants.length == 0 ? (
+              <p className="no-restaurants-message">No restaurants found.</p>
+            ) : (
+              filteredRestaurants.map((restaurant) => (
               <div className="restaurant-card" key={restaurant.id}>
                   <img src={restaurant.image} alt={restaurant.name} />
                   <h3>{restaurant.name}</h3>
                   <button onClick={() => handleSelectRestaurant(restaurant)}>Select</button>
               </div>
-              ))}
+              ))
+            )}
           </div>
         )}
       </div>
