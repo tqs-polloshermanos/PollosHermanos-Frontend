@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './Menu.css'; // Import CSS file
+import { useCart } from './CartContext';
 
 function Menu() {
   const [searchQuery, setSearchQuery] = useState('');
   const [cuisineType, setCuisineType] = useState('');
-
+  const { addItemToCart } = useCart();
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -15,14 +16,13 @@ function Menu() {
   };
 
   const handleSearch = () => {
-    // Logic to handle search
     console.log('Search query:', searchQuery);
     console.log('Cuisine type:', cuisineType);
   };
 
-  const handleAddToCart = (mealName) => {
-    // Logic to add meal to cart
-    console.log(`Adding ${mealName} to cart...`);
+  const handleAddToCart = (meal) => {
+    addItemToCart(meal);
+    console.log(`Adding ${meal.name} to cart...`);
   };
 
   return (
@@ -46,20 +46,19 @@ function Menu() {
       </div>
       <div className="meal-container">
         <div className="meal-examples">
-          {/* Render meal examples here */}
           <div className="meal-card">
             <img src="example1.jpg" alt="Meal 1" />
             <h3>Meal Name</h3>
             <p>Description of the meal...</p>
-            <p>Price of the meal...</p>
-            <button onClick={() => handleAddToCart('Meal 1')}>Add to Cart</button>
+            <p>Price: $10</p>
+            <button onClick={() => handleAddToCart({ id: 1, name: 'Meal 1', price: 10 })}>Add to Cart</button>
           </div>
           <div className="meal-card">
             <img src="example2.jpg" alt="Meal 2" />
             <h3>Meal Name</h3>
             <p>Description of the meal...</p>
-            <p>Price of the meal...</p>
-            <button onClick={() => handleAddToCart('Meal 2')}>Add to Cart</button>
+            <p>Price: $15</p>
+            <button onClick={() => handleAddToCart({ id: 2, name: 'Meal 2', price: 15 })}>Add to Cart</button>
           </div>
           {/* Add more meal examples */}
         </div>
