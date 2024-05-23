@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Restaurants.css'; // Import CSS file
 import RestaurantMenu from './RestaurantMenu'; // Import the page with the menu of each restaurant
 
@@ -37,9 +37,30 @@ function Restaurants() {
     },
   ];
 
+  const [restaurants, setRestaurants] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [cuisineType, setCuisineType] = useState('');
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   const fetchRestaurants = async () => {
+  //     try{
+  //       const response = await fetch('api/restaurants');
+  //       if (!response.ok) {
+  //         throw new Error('Something went wrong while fetching the data');
+  //       }
+  //       const data = await response.json();
+  //       setRestaurants(data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setError(error.message);
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchRestaurants();
+  // }, []);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -55,10 +76,19 @@ function Restaurants() {
   };
 
   const filteredRestaurants = dummyData.filter((restaurant) => {
+  // const filteredRestaurants = restaurants.filter((restaurant) => {
     const nameMatch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase());
     const cuisineTypeMatch = !cuisineType || restaurant.cuisineType === cuisineType;
     return nameMatch && cuisineTypeMatch;
   });
+
+  // if (loading) {
+  //   return <div className='loading'>Loading...</div>
+  // }
+
+  // if (error) {
+  //   return <div className='error'>Error: {error}</div>
+  // }
 
   return (
     <div className="restaurant-selection-container">

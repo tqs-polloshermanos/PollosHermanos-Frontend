@@ -80,3 +80,9 @@ button:hover {
   font-style: italic;
   color: #000000;
 }
+
+.loading, .error {
+  margin-top: 200px;
+  font-size: 80px;
+  font-style: bold;
+}
