@@ -1,20 +1,44 @@
 import React, { useState } from 'react';
 import './Restaurants.css'; // Import CSS file
+import RestaurantMenu from './RestaurantMenu'; // Import the page with the menu of each restaurant
 
 function Restaurants() {
   // Dummy data for demonstration
   const dummyData = [
-    { id: 1, name: 'Italian Bistro', image: 'italian.jpg', cuisineType: 'ITALIAN'},
-    { id: 2, name: 'Mexican Grill', image: 'mexican.jpg', cuisineType: 'MEXICAN' },
-    { id: 3, name: 'Asian Fusion', image: 'asian.jpg', cuisineType: 'ASIAN'},
-    // Add more restaurants as needed
+    {
+      id: 1,
+      name: 'Italian Bistro',
+      image: 'italian.jpg',
+      cuisineType: 'ITALIAN',
+      menu: [
+        { id: 1, name: 'Spaghetti', description: 'Classic spaghetti with tomato sauce', price: 12.99, image: 'spaghetti.jpg'},
+        { id: 2, name: 'Lasagna', description: 'Layers of pasta, meat, and cheese baked to perfection', price: 15.99, image: 'lasagna.jpg'},
+      ],
+    },
+    {
+      id: 2,
+      name: 'Mexican Grill',
+      image: 'mexican.jpg',
+      cuisineType: 'MEXICAN',
+      menu: [
+        { id: 1, name: 'Tacos', description: 'Authentic Mexican tacos with your choice of filling', price: 8.99, image: 'tacos.jpg'},
+        { id: 2, name: 'Burritos', description: 'Large flour tortilla stuffed with rice, beans, and meat', price: 10.99, image: 'burritos.jpg'},
+      ],
+    },
+    {
+      id: 3,
+      name: 'Asian Fusion',
+      image: 'asian.jpg',
+      cuisineType: 'ASIAN',
+      menu: [
+        { id: 1, name: 'Sushi', description: 'Assorted sushi rolls with fresh fish and vegetables', price: 14.99, image: 'sushi.jpg'},
+        { id: 2, name: 'Stir Fry', description: 'Mix of vegetables and protein stir-fried in a savory sauce', price: 12.99, image: 'stir-fry.jpg'},
+      ],
+    },
   ];
 
   const [searchQuery, setSearchQuery] = useState('');
   const [cuisineType, setCuisineType] = useState('');
-  // const [restaurants, setRestaurants] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   const handleSearchChange = (e) => {
@@ -27,13 +51,14 @@ function Restaurants() {
 
   const handleSelectRestaurant = (restaurant) => {
     setSelectedRestaurant(restaurant);
+    window.location.href = `/restaurantMenu/${restaurant.id}`;
   };
 
   const filteredRestaurants = dummyData.filter((restaurant) => {
     const nameMatch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase());
     const cuisineTypeMatch = !cuisineType || restaurant.cuisineType === cuisineType;
     return nameMatch && cuisineTypeMatch;
-  } );
+  });
 
   return (
     <div className="restaurant-selection-container">
@@ -59,24 +84,21 @@ function Restaurants() {
         </select>
       </div>
       <div className="restaurant-container">
-        {loading && <p>Loading...</p>}
-        {error && <p>Error: {error.message}</p>}
-        {!loading && !error && (
+        {filteredRestaurants.length === 0 ? (
+          <p className="no-restaurants-message">No restaurants found.</p>
+        ) : (
           <div className="restaurant-list">
-            {filteredRestaurants.length == 0 ? (
-              <p className="no-restaurants-message">No restaurants found.</p>
-            ) : (
-              filteredRestaurants.map((restaurant) => (
+            {filteredRestaurants.map((restaurant) => (
               <div className="restaurant-card" key={restaurant.id}>
-                  <img src={restaurant.image} alt={restaurant.name} />
-                  <h3>{restaurant.name}</h3>
-                  <button onClick={() => handleSelectRestaurant(restaurant)}>Select</button>
+                <img src={restaurant.image} alt={restaurant.name} />
+                <h3>{restaurant.name}</h3>
+                <button onClick={() => handleSelectRestaurant(restaurant)}>Select</button>
               </div>
-              ))
-            )}
+            ))}
           </div>
         )}
       </div>
+      {selectedRestaurant && <RestaurantMenu selectedRestaurant={selectedRestaurant} />}
     </div>
   );
 }
