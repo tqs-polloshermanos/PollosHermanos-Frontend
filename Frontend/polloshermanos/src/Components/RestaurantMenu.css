@@ -49,3 +49,9 @@
     align-items: center;
   }
   
+
+  .loading, .error {
+    margin-top: 200px;
+    font-size: 80px;
+    font-style: bold;
+  }
