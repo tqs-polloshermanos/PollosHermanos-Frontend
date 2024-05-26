@@ -37,7 +37,7 @@ jobs:
         run: npm test
         working-directory: ./Frontend/${{ matrix.app }}
 
-       - name: SonarCloud Scan
+      - name: SonarCloud Scan
         env:
           SONAR_TOKEN_POLLOSHERMANOS: ${{ secrets.SONAR_TOKEN_POLLOSHERMANOS }}
           SONAR_TOKEN_EMPLOYEES: ${{ secrets.SONAR_TOKEN_EMPLOYEES }}
