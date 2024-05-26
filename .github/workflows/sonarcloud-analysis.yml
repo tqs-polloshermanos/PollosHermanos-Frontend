@@ -1,0 +1,50 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        app:
+          - employees
+          - polloshermanos
+          - screen
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./Frontend/${{ matrix.app }}
+
+      - name: Run tests
+        run: npm test
+        working-directory: ./Frontend/${{ matrix.app }}
+
+      - name: SonarCloud Scan
+        env:
+          SONAR_TOKEN: ${{ secrets['SONAR_TOKEN_' + matrix.app | toUpperCase()] }}
+        run: |
+          npx sonarqube-scanner \
+            -Dsonar.projectKey=tqs-polloshermanos_${{ matrix.app }}_frontend \
+            -Dsonar.organization=tqs-polloshermanos \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN
+        working-directory: ./Frontend/${{ matrix.app }}
