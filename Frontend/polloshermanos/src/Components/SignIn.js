@@ -72,7 +72,7 @@ function Signin() {
         setError(errorData.message || 'Registration failed');
         alert(errorData.message || 'Registration failed');
       }
-      
+
     } catch (error) {
       console.error('Network error:', error);
       setError('An error occurred, please try again');
@@ -83,7 +83,7 @@ function Signin() {
   return (
     <div className="signin-container">
       <form onSubmit={handleSubmit} className="signin-form">
-        <h2>Sign In</h2>
+        <h2>Sign Up</h2>
         <div className="form-group">
           <label htmlFor="fullName">Full Name:</label>
           <input

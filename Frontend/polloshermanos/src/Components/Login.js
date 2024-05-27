@@ -40,12 +40,13 @@ function Login() {
         if (contentType && contentType.includes('application/json')) {
           const data = await response.json();
           console.log('Login successful:', data);
+          login(data.user);
         }
         else {
           const text = await response.text();
           console.log('Login successful:', text);
+          login(text.user);
         }
-        login();
         window.location.href = '/'; // Redirect to the home page
       }
       else {
