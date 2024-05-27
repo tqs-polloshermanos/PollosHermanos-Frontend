@@ -45,20 +45,34 @@ function Signin() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ fullName, email, password }),
+        body: JSON.stringify({ email, password, fullName }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Registration successful:', data);
+      if (response.status === 200) {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const data = await response.json();
+          console.log('Registration successful:', data);
+        }
+        else {
+          const text = await response.text();
+          console.log('Registration successful:', text);
+        }
         window.location.href = '/login'; // Redirect to the login page
       }
-      else{
+      else if (response.status === 400) {
+        const errorData = await response.text();
+        console.error('User already exists:', errorData);
+        setError(errorData || 'User already exists');
+        alert(errorData || 'User already exists');
+      }
+      else {
         const errorData = await response.json();
         console.error('Error response from server:', errorData);
         setError(errorData.message || 'Registration failed');
         alert(errorData.message || 'Registration failed');
       }
+      
     } catch (error) {
       console.error('Network error:', error);
       setError('An error occurred, please try again');
