@@ -4,38 +4,38 @@ import RestaurantMenu from './RestaurantMenu'; // Import the page with the menu 
 
 function Restaurants() {
   // Dummy data for demonstration
-  const dummyData = [
-    {
-      id: 1,
-      name: 'Italian Bistro',
-      image: 'italian.jpg',
-      cuisineType: 'ITALIAN',
-      menu: [
-        { id: 1, name: 'Spaghetti', description: 'Classic spaghetti with tomato sauce', price: 12.99, image: 'spaghetti.jpg'},
-        { id: 2, name: 'Lasagna', description: 'Layers of pasta, meat, and cheese baked to perfection', price: 15.99, image: 'lasagna.jpg'},
-      ],
-    },
-    {
-      id: 2,
-      name: 'Mexican Grill',
-      image: 'mexican.jpg',
-      cuisineType: 'MEXICAN',
-      menu: [
-        { id: 1, name: 'Tacos', description: 'Authentic Mexican tacos with your choice of filling', price: 8.99, image: 'tacos.jpg'},
-        { id: 2, name: 'Burritos', description: 'Large flour tortilla stuffed with rice, beans, and meat', price: 10.99, image: 'burritos.jpg'},
-      ],
-    },
-    {
-      id: 3,
-      name: 'Asian Fusion',
-      image: 'asian.jpg',
-      cuisineType: 'ASIAN',
-      menu: [
-        { id: 1, name: 'Sushi', description: 'Assorted sushi rolls with fresh fish and vegetables', price: 14.99, image: 'sushi.jpg'},
-        { id: 2, name: 'Stir Fry', description: 'Mix of vegetables and protein stir-fried in a savory sauce', price: 12.99, image: 'stir-fry.jpg'},
-      ],
-    },
-  ];
+  // const dummyData = [
+  //   {
+  //     id: 1,
+  //     name: 'Italian Bistro',
+  //     image: 'italian.jpg',
+  //     cuisineType: 'ITALIAN',
+  //     menu: [
+  //       { id: 1, name: 'Spaghetti', description: 'Classic spaghetti with tomato sauce', price: 12.99, image: 'spaghetti.jpg'},
+  //       { id: 2, name: 'Lasagna', description: 'Layers of pasta, meat, and cheese baked to perfection', price: 15.99, image: 'lasagna.jpg'},
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Mexican Grill',
+  //     image: 'mexican.jpg',
+  //     cuisineType: 'MEXICAN',
+  //     menu: [
+  //       { id: 1, name: 'Tacos', description: 'Authentic Mexican tacos with your choice of filling', price: 8.99, image: 'tacos.jpg'},
+  //       { id: 2, name: 'Burritos', description: 'Large flour tortilla stuffed with rice, beans, and meat', price: 10.99, image: 'burritos.jpg'},
+  //     ],
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'Asian Fusion',
+  //     image: 'asian.jpg',
+  //     cuisineType: 'ASIAN',
+  //     menu: [
+  //       { id: 1, name: 'Sushi', description: 'Assorted sushi rolls with fresh fish and vegetables', price: 14.99, image: 'sushi.jpg'},
+  //       { id: 2, name: 'Stir Fry', description: 'Mix of vegetables and protein stir-fried in a savory sauce', price: 12.99, image: 'stir-fry.jpg'},
+  //     ],
+  //   },
+  // ];
 
   const [restaurants, setRestaurants] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,23 +44,23 @@ function Restaurants() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchRestaurants = async () => {
-  //     try{
-  //       const response = await fetch('api/restaurants');
-  //       if (!response.ok) {
-  //         throw new Error('Something went wrong while fetching the data');
-  //       }
-  //       const data = await response.json();
-  //       setRestaurants(data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       setError(error.message);
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchRestaurants();
-  // }, []);
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try{
+        const response = await fetch('api/restaurants');
+        if (!response.ok) {
+          throw new Error('Something went wrong while fetching the data');
+        }
+        const data = await response.json();
+        setRestaurants(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+    fetchRestaurants();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -75,8 +75,8 @@ function Restaurants() {
     window.location.href = `/restaurantMenu/${restaurant.id}`;
   };
 
-  const filteredRestaurants = dummyData.filter((restaurant) => {
-  // const filteredRestaurants = restaurants.filter((restaurant) => {
+  // const filteredRestaurants = dummyData.filter((restaurant) => {
+  const filteredRestaurants = restaurants.filter((restaurant) => {
     const nameMatch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase());
     const cuisineTypeMatch = !cuisineType || restaurant.cuisineType === cuisineType;
     return nameMatch && cuisineTypeMatch;
