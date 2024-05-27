@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import './SignIn.css'; // Import CSS file
 
 function Signin() {
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+
+  const handleFullNameChange = (e) => {
+    setFullName(e.target.value);
+  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -35,12 +40,12 @@ function Signin() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/users/register', {
+      const response = await fetch('http://localhost:8005/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ fullName, email, password }),
       });
 
       if (response.ok) {
@@ -65,6 +70,16 @@ function Signin() {
     <div className="signin-container">
       <form onSubmit={handleSubmit} className="signin-form">
         <h2>Sign In</h2>
+        <div className="form-group">
+          <label htmlFor="fullName">Full Name:</label>
+          <input
+            type="text"
+            id="fullName"
+            value={fullName}
+            onChange={handleFullNameChange}
+            required
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
