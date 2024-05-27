@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom'; // Import Link
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import './Login.css'; // Import CSS file
 
@@ -8,7 +6,6 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const history = useHistory();
   const { login } = useAuth();
   
   const handleEmailChange = (e) => {
@@ -22,10 +19,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    // Handle login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // You can add further logic here, such as sending the data to a backend server for authentication
+    
     if (!email.includes('@')) {
       setError('Please enter a valid email');
       alert("Please enter a valid email");
@@ -33,7 +27,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/users/login',  {
+      const response = await fetch('http://localhost:8005/auth/login',  {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,11 +38,13 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         console.log('Login successful:', data);
-        login();
-        history.push('/');
+        localStorage.setItem('token', data.token);
+        login(data.user);
+        window.location.href = '/'; // Redirect to the home page
       }
       else {
         const errorData = await response.json();
+        console.log('Error:', errorData);
         setError(errorData.message || 'Login failed');
         alert(errorData.message || 'Login failed');
       }

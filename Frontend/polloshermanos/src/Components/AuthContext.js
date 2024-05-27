@@ -1,5 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
 
@@ -7,16 +6,37 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated ] = useState(false);
-    const history = useHistory();
+    const [user, setUser] = useState(null);
 
-    const login = () => setIsAuthenticated(true);
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+
+        if (token && user) {
+            setIsAuthenticated(true);
+            setUser(JSON.parse(user));
+        }
+    }, []);
+
+    console.log('User data:', user);
+
+    const login = (userData) => {
+        setIsAuthenticated(true);
+        setUser(userData);
+        localStorage.setItem('token', userData.token);
+        localStorage.setItem('user', JSON.stringify(userData));
+    }
+
     const logout = () => {
         setIsAuthenticated(false);
-        history.push('/login');
+        setUser(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

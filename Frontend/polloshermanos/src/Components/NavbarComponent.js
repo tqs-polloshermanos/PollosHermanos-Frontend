@@ -2,11 +2,13 @@
 import React from 'react';
 import './NavbarComponent.css'; // Import CSS file
 import cartImage from './img/cart.png'; // Import the cart image
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import { useAuth } from './AuthContext';
 
 function NavbarComponent() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
+
+  console.log('isAuthenticated:', isAuthenticated);
+  console.log('user:', user);
 
   return (
     <nav className="navbar">
@@ -14,7 +16,7 @@ function NavbarComponent() {
         <a href="/" className="brand">Pollos Hermanos</a>
         <ul className="nav-list">
           <li className="nav-item"><a href="/" className="nav-link">Home</a></li>
-          <li className="nav-item"><a href="/menu" className="nav-link">Menu</a></li>
+          {/* <li className="nav-item"><a href="/menu" className="nav-link">Menu</a></li> */}
           <li className="nav-item"><a href="/history" className="nav-link">History</a></li>
           <li className="nav-item"><a href="/restaurants" className="nav-link">Restaurants</a></li>
           <li className="nav-item"><a href="/contact" className="nav-link">Contact</a></li>
@@ -27,11 +29,14 @@ function NavbarComponent() {
             </a>
           </li>
         </ul>
-        <ul>
+        <ul className='nav-user'>
           {isAuthenticated ? (
-            <a href="/logout" className="login-btn nav-link">Logout</a>
+            <>
+              <p className='nav-greeting'>Hi, {user.fullName}!</p>
+              <a href="/logout" className="nav-link" onClick={logout}>Logout</a>
+            </>
           ): (
-            <a href="/login" className="login-btn nav-link">Login/Sign-up</a>
+            <a href="/login" className="nav-link">Login/Sign-up</a>
             )}
         </ul>
       </div>
