@@ -1,13 +1,11 @@
 import React from 'react';
 import './Cart.css'; // Import CSS file
-import { useHistory } from 'react-router-dom';
 import { useCart } from './CartContext';
 import { useAuth } from './AuthContext';
 
 function Cart() {
   const { cartItems, increaseQuantity, decreaseQuantity, removeItemFromCart, clearCart } = useCart();
   const { isAuthenticated } = useAuth();
-  const history = useHistory();
 
   const handleConfirmPurchase = () => {
     console.log('Purchase confirmed!');
@@ -15,7 +13,7 @@ function Cart() {
   };
 
   const handleLogin = () => {
-    history.push('/login');
+    window.location.href = `/login`;
   };
 
   // if (!isAuthenticated) {

@@ -10,6 +10,7 @@ import History from './Components/History';
 import Restaurants from './Components/Restaurants';
 import Cart from './Components/Cart';
 import Contact from './Components/Contact';
+import RestaurantMenu from './Components/RestaurantMenu';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AuthProvider  } from './Components/AuthContext';
 import { CartProvider  } from './Components/CartContext';
@@ -32,6 +33,7 @@ function App() {
               <Route path="/restaurants" component={Restaurants} /> {/* Define route for Restaurants component */}
               <Route path="/cart" component={Cart} /> {/* Define route for Cart component */}
               <Route path="/contact" component={Contact} /> {/* Define route for Contact component */}
+              <Route path="/restaurantMenu/:id" component={RestaurantMenu} /> {/* Define route for RestaurantMenu component */}
             </Switch>
           </div>
         </Router>
