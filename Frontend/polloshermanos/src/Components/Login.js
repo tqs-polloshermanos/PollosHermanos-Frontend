@@ -36,17 +36,10 @@ function Login() {
       });
       
       if (response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          const data = await response.json();
-          console.log('Login successful:', data);
-          login(data.user);
-        }
-        else {
-          const text = await response.text();
-          console.log('Login successful:', text);
-          login(text.user);
-        }
+        const data = await response.json();
+        console.log('Login successful:', data);
+        localStorage.setItem('token', data.token);
+        login(data.user);
         window.location.href = '/'; // Redirect to the home page
       }
       else {

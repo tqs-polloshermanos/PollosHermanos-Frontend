@@ -7,6 +7,9 @@ import { useAuth } from './AuthContext';
 function NavbarComponent() {
   const { isAuthenticated, user, logout } = useAuth();
 
+  console.log('isAuthenticated:', isAuthenticated);
+  console.log('user:', user);
+
   return (
     <nav className="navbar">
       <div className="container">
@@ -29,9 +32,9 @@ function NavbarComponent() {
         <ul className='nav-user'>
           {isAuthenticated ? (
             <>
-              <span className='nav-greeting'>Hi, {user.fullName}</span>
+              <p className='nav-greeting'>Hi, {user.fullName}!</p>
               <a href="/logout" className="nav-link" onClick={logout}>Logout</a>
-              </>
+            </>
           ): (
             <a href="/login" className="nav-link">Login/Sign-up</a>
             )}
