@@ -50,11 +50,12 @@ function Signin() {
       }
       else{
         const errorData = await response.json();
+        console.error('Error response from server:', errorData);
         setError(errorData.message || 'Registration failed');
         alert(errorData.message || 'Registration failed');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Network error:', error);
       setError('An error occurred, please try again');
       alert('An error occurred, please try again');
     }
