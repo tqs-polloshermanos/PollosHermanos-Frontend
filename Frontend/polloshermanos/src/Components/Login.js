@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import './Login.css'; // Import CSS file
 
@@ -28,7 +27,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://localhost:8005/api/users/login',  {
+      const response = await fetch('http://localhost:8005/auth/login',  {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,13 +36,21 @@ function Login() {
       });
       
       if (response.ok) {
-        const data = await response.json();
-        console.log('Login successful:', data);
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const data = await response.json();
+          console.log('Login successful:', data);
+        }
+        else {
+          const text = await response.text();
+          console.log('Login successful:', text);
+        }
         login();
         window.location.href = '/'; // Redirect to the home page
       }
       else {
         const errorData = await response.json();
+        console.log('Error:', errorData);
         setError(errorData.message || 'Login failed');
         alert(errorData.message || 'Login failed');
       }
