@@ -19,14 +19,10 @@ function Signin() {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    // Handle sign-in logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Confirm Password:", confirmPassword);
-    // You can add further logic here, such as sending the data to a backend server for user registration
+    
     if (!email.includes('@')) {
       setError('Please enter a valid email');
       alert("Please enter a valid email");
@@ -36,6 +32,31 @@ function Signin() {
       setError('The passwords do not match')
       alert('The passwords do not match');
       return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8080/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Registration successful:', data);
+        window.location.href = '/login'; // Redirect to the login page
+      }
+      else{
+        const errorData = await response.json();
+        setError(errorData.message || 'Registration failed');
+        alert(errorData.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred, please try again');
+      alert('An error occurred, please try again');
     }
   };
 
