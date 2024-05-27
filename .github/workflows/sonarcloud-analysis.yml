@@ -1,0 +1,57 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        app:
+          - employees
+          - polloshermanos
+          - screen
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./Frontend/${{ matrix.app }}
+
+      - name: SonarCloud Scan
+        env:
+          SONAR_TOKEN_POLLOSHERMANOS: ${{ secrets.SONAR_TOKEN_POLLOSHERMANOS }}
+          SONAR_TOKEN_EMPLOYEES: ${{ secrets.SONAR_TOKEN_EMPLOYEES }}
+          SONAR_TOKEN_SCREEN: ${{ secrets.SONAR_TOKEN_SCREEN }}
+          APP_NAME: ${{ matrix.app }}
+        run: |
+          if [ "$APP_NAME" = "polloshermanos" ]; then
+            SONAR_TOKEN=$SONAR_TOKEN_POLLOSHERMANOS
+          elif [ "$APP_NAME" = "employees" ]; then
+            SONAR_TOKEN=$SONAR_TOKEN_EMPLOYEES
+          elif [ "$APP_NAME" = "screen" ]; then
+            SONAR_TOKEN=$SONAR_TOKEN_SCREEN
+          fi
+
+          npx sonarqube-scanner \
+            -Dsonar.projectKey=tqs-polloshermanos_${{ matrix.app }}_frontend \
+            -Dsonar.organization=tqs-polloshermanos \
+            -Dsonar.sources=src \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN
+        working-directory: ./Frontend/${{ matrix.app }}
