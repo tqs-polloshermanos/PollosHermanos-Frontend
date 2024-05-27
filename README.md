@@ -11,3 +11,8 @@ https://www.figma.com/file/f0iRnEPgXhjRjCzCGBp8BM/Untitled?type=design&node-id=0
 
 Drive:
 https://drive.google.com/drive/folders/17yzMTDpnrf3mIZ_kcYQiz4SihD0tW_Vi?usp=sharing
+
+
+Docker:
+- backend --> docker run -d -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=taskdb --name mysqldb -p 3307:3306 mysql:8.0
+- frontend(cl)
