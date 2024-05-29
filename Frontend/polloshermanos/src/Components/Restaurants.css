@@ -39,7 +39,7 @@ select {
 .restaurant-list {
   display: flex;
   gap: 30px;
-  width: 500px;
+  width: 8000px;
 }
 
 .restaurant-card {
