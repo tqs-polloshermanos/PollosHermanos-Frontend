@@ -1,11 +1,19 @@
 // NavbarComponent.js
 import React, { useState, useEffect } from 'react';
 import './NavbarComponent.css'; // Import CSS file
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { useRestaurant } from './RestaurantContext';
 
 function NavbarComponent() {
+  const { restaurantData, getRestaurantData } = useRestaurant();
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
+  useEffect(() => {
+    const restaurantData = localStorage.getItem('restaurantData');
+    if (restaurantData){
+      getRestaurantData(JSON.parse(restaurantData));
+    }
+  }, [getRestaurantData]);
+  
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentDateTime(new Date());
@@ -32,7 +40,11 @@ function NavbarComponent() {
           <span className="date">{formatDate(currentDateTime)}</span>
           <span className="time">{formatTime(currentDateTime)}</span>
         </div>
-        <a href="/" className="nav-link">Restaurant Select one</a>
+        {restaurantData.name ? (
+          <a href="/" className="nav-link">{restaurantData.name}</a>
+        ) : (
+          <a href="/restaurantSelection" className="nav-link">Select a Restaurant</a>
+        )}
       </div>
     </nav>
   );

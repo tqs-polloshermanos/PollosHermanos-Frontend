@@ -10,14 +10,6 @@ export const CartProvider = ({ children }) => {
     return cartItems ? JSON.parse(cartItems) : [];
   });
 
-  // useEffect(() => {
-  //   const cartItems = localStorage.getItem('cartItems');
-  //   if (cartItems) {
-  //     setCartItems(JSON.parse(cartItems));
-  //   }
-  // }
-  // , []);
-
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }

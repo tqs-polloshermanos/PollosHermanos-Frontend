@@ -7,8 +7,8 @@ function HomeAfterLogin() {
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   // Dummy data for orders
-  const inProgressOrders = [101, 102, 103, 104];
-  const servingOrders = [201, 202, 203];
+  // const inProgressOrders = [101, 102, 103, 104];
+  // const servingOrders = [201, 202, 203];
 
   if (!selectedRestaurant) {
     return <RestaurantSelection onSelectRestaurant={setSelectedRestaurant} />;
