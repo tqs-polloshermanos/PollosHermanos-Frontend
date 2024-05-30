@@ -33,7 +33,7 @@ function App() {
               <Route path="/restaurants" component={Restaurants} /> {/* Define route for Restaurants component */}
               <Route path="/cart" component={Cart} /> {/* Define route for Cart component */}
               <Route path="/contact" component={Contact} /> {/* Define route for Contact component */}
-              <Route path="/restaurantMenu/:id" component={RestaurantMenu} /> {/* Define route for RestaurantMenu component */}
+              <Route path="/restaurantMenu" component={RestaurantMenu} /> {/* Define route for RestaurantMenu component */}
             </Switch>
           </div>
         </Router>

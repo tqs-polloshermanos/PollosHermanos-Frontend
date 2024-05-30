@@ -3,6 +3,20 @@
 .menu-page-container {
   padding: 120px;
 }
+  
+.information-message {
+  padding: 100px;
+  text-align: center;
+}
+
+.information-message h1 {
+  font-size: 100px;
+}
+
+.info-btn {
+  font-size: 40px;
+  padding: 40px 40px;
+}
 
 .menu-container {
   display: flex;

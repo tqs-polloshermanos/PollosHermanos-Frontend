@@ -38,7 +38,7 @@ function Restaurants() {
 
   const handleSelectRestaurant = (restaurant) => {
     setSelectedRestaurant(restaurant);
-    window.location.href = `/restaurantMenu/${restaurant.id}`;
+    window.location.href = `/restaurantMenu?=${restaurant.id}`;
   };
 
   const filteredRestaurants = restaurants.filter((restaurant) => {
@@ -88,7 +88,6 @@ function Restaurants() {
           </div>
         )}
       </div>
-      {selectedRestaurant && <RestaurantMenu selectedRestaurant={selectedRestaurant} />}
     </div>
   );
 }

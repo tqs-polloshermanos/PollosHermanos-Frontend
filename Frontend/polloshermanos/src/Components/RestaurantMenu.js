@@ -1,34 +1,70 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useCart } from './CartContext';
 import './RestaurantMenu.css'; // Import CSS file
 
 function RestaurantMenu() {
-
-  const { id } = useParams();
+  
   const { addItemToCart } = useCart();
+  const [restaurantName, setRestaurantName] = useState('');
   const [restaurant, setRestaurant] = useState(null);
+  const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [quantities, setQuantities] = useState({});
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const restaurantId = searchParams.get('');
 
   useEffect(() => {
-    const fetchRestaurant = async () => {
+    if (!restaurantId) {
+      return;
+    }
+    const fetchRestaurantName = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/restaurants/${id}`);
+        const response = await fetch(`http://localhost:8005/restaurants/${restaurantId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch restaurant data');
+        }
+        const data = await response.json();
+        setRestaurantName(data.name);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchRestaurantName();
+  }, [restaurantId]);
+
+  useEffect(() => {
+    if (!restaurantId) {
+      return;
+    }
+    const fetchMenuItems = async () => {
+      try {
+        const response = await fetch(`http://localhost:8005/api/products/restaurant/${restaurantId}`);
+        console.log("response", response)
         if (!response.ok) {
           throw new Error('Something went wrong while fetching the data');
         }
         const data = await response.json();
-        setRestaurant(data);
+        setMenuItems(data);
       } catch (error) {
         console.error('Error:', error)
         setError('An error occurred while fetching restaurant data');
         alert('An error occurred while fetching restaurant data');
       }
     };
-    fetchRestaurant();
-  }, [id]);
+    fetchMenuItems();
+  }, [restaurantId]);
+
+  if (!restaurantId) {
+    return (
+      <div className="information-message">
+        <h1>Please select a restaurant first</h1>
+        <button onClick={() => window.location.href="/restaurants"} className='info-btn'>Select a restaurant</button>
+      </div>
+    );
+  }
 
   const handleQuantityChanges = (menuItemId, value) => {
     setQuantities({
@@ -55,17 +91,16 @@ function RestaurantMenu() {
 
   return (
     <div className="menu-page-container">
-      <h2>{restaurant ? `${restaurant.name}` : 'Select a Restaurant'}</h2>
+      <h2>{restaurant ? `${restaurantName} - Menu` : 'Select a Restaurant'}</h2>
       <div className='menu-container'>
         <div className="menu-items">
-          {restaurant && restaurant.menu ? (
-            restaurant.menu.map((item) => (
+          {menuItems.length > 0 ? (
+            menuItems.map((item) => (
               <div className="menu-item" key={item.id}>
-                <img src={item.image} alt={item.name} />
                 <div className="item-details">
                   <h3>{item.name}</h3>
                   <p>{item.description}</p>
-                  <p>${item.price.toFixed(2)}</p>
+                  <p><strong>${item.price.toFixed(2)}</strong></p>
                   <div className="add-to-cart">
                     <input
                       type="number"
@@ -92,7 +127,7 @@ function RestaurantMenu() {
                 {selectedItems.map(item => (
                   <li key={item.id} className="selected-item">
                     <div className="selected-item-details">
-                      <span>{item.name}:  ${(item.price * item.quantity).toFixed(2)} x {item.quantity}</span>
+                      <span>{item.name}:  ${(item.price).toFixed(2)} x {item.quantity}</span>
                     </div>
                   </li>
                 ))}
