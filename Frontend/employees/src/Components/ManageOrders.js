@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './ManageOrders.css'; // Import CSS file
 
 // Dummy data for demonstration purposes
@@ -28,6 +29,41 @@ const orders = [
 
 function ManageOrdersPage() {
   const [orderList, setOrderList] = useState(orders);
+  const [restaurantName, setRestaurantName] = useState('');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const restaurantId = searchParams.get('');
+
+  console.log("lcoation -- ", location);
+  console.log("searcjpara -- ", searchParams);
+  console.log("restaurant id -- ", restaurantId);
+  useEffect(() => {
+    if (!restaurantId) {
+      return;
+    }
+    const fetchRestaurantName = async () => {
+      try {
+        const response = await fetch(`http://localhost:8005/restaurants/${restaurantId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch restaurant data');
+        }
+        const data = await response.json();
+        setRestaurantName(data.name);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchRestaurantName();
+  }, [restaurantId]);
+
+  if (!restaurantId) {
+    return (
+      <div className="information-message">
+        <h1>Please select a restaurant first</h1>
+        <button onClick={() => window.open("/homeAfterLogin")} className='info-btn'>Select a restaurant</button>
+      </div>
+    );
+  }
 
   const handleOrderDone = (orderId) => {
     setOrderList(orderList.filter(order => order.id !== orderId));
@@ -35,7 +71,7 @@ function ManageOrdersPage() {
 
   return (
     <div className="manage-orders-page">
-      <h1>Manage Orders</h1>
+      <h1>Manage Orders for: {restaurantName}</h1>
       <div className="orders-container">
         {orderList.map(order => (
           <div className={`order-card ${order.priority ? 'priority' : ''}`} key={order.id}>

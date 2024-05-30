@@ -3,6 +3,20 @@
     text-align: center;
   }
   
+  .information-message {
+    padding: 100px;
+    text-align: center;
+  }
+
+  .information-message h1 {
+    font-size: 100px;
+  }
+
+  .info-btn {
+    font-size: 40px; /* Adjust the font size */
+    padding: 40px 40px; /* Adjust the padding */
+  }
+  
   .orders-container {
     display: flex;
     flex-wrap: wrap;
