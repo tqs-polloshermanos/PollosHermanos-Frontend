@@ -1,0 +1,98 @@
+/* RestaurantSelection.css */
+
+.restaurant-selection-container {
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 2000px;
+  }
+  
+  select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .restaurant-container {
+    display: grid;
+    background-color: rgb(255, 157, 0);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .restaurant-list {
+    display: flex;
+    gap: 30px;
+    width: 1000px;
+  }
+  
+  .restaurant-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .restaurant-card img {
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  .restaurant-card h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 25px;
+  }
+
+  .restaurant-card p {
+    font-size: 18px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+  .no-restaurants-message {
+    font-size: 20px;
+    font-style: italic;
+    color: #000000;
+  }
+  
+  .loading, .error {
+    margin-top: 200px;
+    font-size: 80px;
+    font-style: bold;
+  }
+  

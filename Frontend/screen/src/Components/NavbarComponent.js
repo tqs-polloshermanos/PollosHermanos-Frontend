@@ -1,10 +1,13 @@
 // NavbarComponent.js
 import React, { useState, useEffect } from 'react';
 import './NavbarComponent.css'; // Import CSS file
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { useRestaurant } from './RestaurantContext';
 
 function NavbarComponent() {
+  const { restaurantName } = useRestaurant();
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+  console.log('Restaurant nameee:', restaurantName);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -32,6 +35,7 @@ function NavbarComponent() {
           <span className="date">{formatDate(currentDateTime)}</span>
           <span className="time">{formatTime(currentDateTime)}</span>
         </div>
+        <a href="/" className="nav-link">{restaurantName}</a>
         <a href="/" className="nav-link">Restaurant Select one</a>
       </div>
     </nav>
