@@ -5,9 +5,8 @@ import './RestaurantMenu.css'; // Import CSS file
 
 function RestaurantMenu() {
   
-  const { addItemToCart } = useCart();
+  const { addItemToCart, cartItems, removeItemFromCart } = useCart();
   const [restaurantName, setRestaurantName] = useState('');
-  const [restaurant, setRestaurant] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -42,7 +41,6 @@ function RestaurantMenu() {
     const fetchMenuItems = async () => {
       try {
         const response = await fetch(`http://localhost:8005/api/products/restaurant/${restaurantId}`);
-        console.log("response", response)
         if (!response.ok) {
           throw new Error('Something went wrong while fetching the data');
         }
@@ -57,6 +55,17 @@ function RestaurantMenu() {
     fetchMenuItems();
   }, [restaurantId]);
 
+  const handleBuy = () => {
+    console.log('Selected items:', selectedItems);
+    console.log('Cart items:', cartItems);
+    if (cartItems.length > 0) {
+      window.location.href = `/cart`;
+    }
+    else {
+      alert('No items selected');
+    }
+  };
+  
   if (!restaurantId) {
     return (
       <div className="information-message">
@@ -75,23 +84,25 @@ function RestaurantMenu() {
 
   const selectItem = (menuItem) => {
     const existingItem = selectedItems.find(item => item.id ==menuItem.id);
+    const quantity = quantities[menuItem.id] || 1;
     if (existingItem) {
-      setSelectedItems(selectedItems.map(item => item.id == menuItem.id ? {...item, quantity: quantities[menuItem.id] || 1}: item));
+      setSelectedItems(selectedItems.map(item => item.id == menuItem.id ? {...item, quantity}: item));
     }
     else {
-      setSelectedItems([...selectedItems, { ...menuItem, quantity: quantities[menuItem.id] || 1}]);
+      setSelectedItems([...selectedItems, { ...menuItem, quantity}]);
     }
+    addItemToCart(menuItem, quantity);
   };
 
-  const handleBuy = () => {
-    selectedItems.forEach(item => addItemToCart(item));
-    window.location.href = `/cart`;
+  const removeItem = (itemId) => {
+    setSelectedItems(selectedItems.filter(item => item.id !== itemId));
+    removeItemFromCart(itemId);
   };
   
 
   return (
     <div className="menu-page-container">
-      <h2>{restaurant ? `${restaurantName} - Menu` : 'Select a Restaurant'}</h2>
+      <h2>{restaurantName ? `${restaurantName} - Menu` : 'Select a Restaurant'}</h2>
       <div className='menu-container'>
         <div className="menu-items">
           {menuItems.length > 0 ? (
@@ -108,7 +119,7 @@ function RestaurantMenu() {
                       value = {quantities[item.id] || 1}
                       onChange={(e) => handleQuantityChanges(item.id, parseInt(e.target.value))}
                     />
-                    <button onClick={() => selectItem(item)}>
+                    <button className='select-to-add-button' onClick={() => selectItem(item)}>
                       Select to add
                     </button>
                   </div>
@@ -122,20 +133,21 @@ function RestaurantMenu() {
         <div className='side-form'>
           {selectedItems.length > 0 && (
             <div className='side-form2'>
-              <h3>Selected Items</h3>
+              <h2>Selected Items</h2>
               <ul>
                 {selectedItems.map(item => (
                   <li key={item.id} className="selected-item">
                     <div className="selected-item-details">
-                      <span>{item.name}:  ${(item.price).toFixed(2)} x {item.quantity}</span>
+                      <h3>{item.name}:  ${(item.price).toFixed(2)} x {item.quantity}  </h3>
+                      <button onClick={() => removeItem(item.id)}>🗑️</button>
                     </div>
                   </li>
                 ))}
               </ul>
               <div className="total-price">
-                Total: ${selectedItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
+                <h2>Total: ${selectedItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}</h2>
               </div>
-              <button onClick={handleBuy}>Buy</button>
+              <button className='handle-buy-button' onClick={handleBuy}>Buy</button>
             </div>
           )}
         </div>
