@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './RestaurantSelection.css'; // Import CSS file
-import Home from './Home';
 import { useRestaurant } from './RestaurantContext';
 
 function RestaurantSelection() {
@@ -9,7 +8,7 @@ function RestaurantSelection() {
   const [restaurants, setRestaurants] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [cuisineType, setCuisineType] = useState('');
-  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [selectedRestaurant, setSelectedRestaurant] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {

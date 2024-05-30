@@ -1,24 +1,30 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export const RestaurantContext = createContext();
 
 export const useRestaurant = () => useContext(RestaurantContext);
 
 export const RestaurantProvider = ({ children }) => {
-  const [restaurantData, setRestaurantData] = useState(null);
-  const [restaurantName, setRestaurantName] = useState('');
+  const [restaurantData, setRestaurantData] = useState(() => {
+    const restaurantData = localStorage.getItem('restaurantData');
+    return restaurantData ? JSON.parse(restaurantData) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('restaurantData', JSON.stringify(restaurantData));
+  }
+  , [restaurantData]);
 
   const updateRestaurantData = (data) => {
     setRestaurantData(data);
-    updateRestaurantName(data.name);
   };
 
-  const updateRestaurantName = (name) => {
-    setRestaurantName(name);
+  const getRestaurantData = () => {
+    return restaurantData;
   }
 
   return (
-    <RestaurantContext.Provider value={{ restaurantData, restaurantName, updateRestaurantData }}>
+    <RestaurantContext.Provider value={{ restaurantData, updateRestaurantData, getRestaurantData }}>
       {children}
     </RestaurantContext.Provider>
   );
