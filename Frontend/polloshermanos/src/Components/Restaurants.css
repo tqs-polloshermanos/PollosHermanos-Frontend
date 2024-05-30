@@ -39,7 +39,7 @@ select {
 .restaurant-list {
   display: flex;
   gap: 30px;
-  width: 8000px;
+  width: 1000px;
 }
 
 .restaurant-card {
@@ -59,6 +59,11 @@ select {
 .restaurant-card h3 {
   margin-top: 10px;
   margin-bottom: 5px;
+  font-size: 25px;
+}
+
+.restaurant-card p {
+  font-size: 18px;
 }
 
 button {

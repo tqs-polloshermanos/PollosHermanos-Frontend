@@ -34,9 +34,6 @@ function ManageOrdersPage() {
   const searchParams = new URLSearchParams(location.search);
   const restaurantId = searchParams.get('');
 
-  console.log("lcoation -- ", location);
-  console.log("searcjpara -- ", searchParams);
-  console.log("restaurant id -- ", restaurantId);
   useEffect(() => {
     if (!restaurantId) {
       return;
@@ -60,7 +57,7 @@ function ManageOrdersPage() {
     return (
       <div className="information-message">
         <h1>Please select a restaurant first</h1>
-        <button onClick={() => window.open("/homeAfterLogin")} className='info-btn'>Select a restaurant</button>
+        <button onClick={() => window.location.href="/homeAfterLogin"} className='info-btn'>Select a restaurant</button>
       </div>
     );
   }

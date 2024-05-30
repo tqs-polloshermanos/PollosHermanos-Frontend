@@ -1,98 +1,96 @@
 /* Cart.css */
-
 .cart-container {
-    padding: 20px;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  .cart-items {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .cart-item {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center; 
-    justify-content: space-between;
-  }
-  
-  .item-info {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-  }
-  
-  .item-image {
-    width: 100px; 
-    border-radius: 5px;
-    margin-right: 10px;
-  }
-  
-  .item-details {
-    flex-grow: 1;
-  }
-  
-  h3 {
-    margin:0;
-    margin-top: 0;
-    margin-bottom: 5px;
-    font-size: 18px; 
-  }
-  
-  p {
-    margin-left: 10px;
-    margin: 0;
-    font-size: 14px; 
-  }
-  
-  button {
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    font-size: 14px; 
-    margin-left: 5px;
-  }
-  
-  button:hover {
-    background-color: #555;
-  }
-  
-  .total-price {
-    margin-top: 10px;
-    font-size: 30px;
-  }
+  padding: 20px;
+}
 
-  .personalize {
-    background-color: rgb(0, 13, 255);
-  }
+h1 {
+  text-align: center;
+}
 
-  .increase {
-    background-color: rgb(0, 255, 0);
-  }
+.cart-items {
+  list-style: none;
+  padding: 0;
+  background-color: #ff9800;
+  border-radius: 5px;
+}
 
-    .decrease {
-        background-color: rgb(255, 0, 0);
-    }
-  
+.cart-item {
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
 
-  .login-message {
-    margin-top: 200px;
-  }
-  
-  .login-button {
-    font-size: 25px;
-    padding: 12px 24px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
+.item-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-text {
+  flex-grow: 1;
+}
+
+.item-text h3 {
+  margin: 0;
+  font-size: 40px;
+}
+
+.item-text p {
+  margin: 0;
+  font-size: 20px;
+}
+
+.quantity-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-buttons button,
+.quantity-buttons p {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.increase {
+  background-color: #4caf50;
+  color: white;
+}
+
+.decrease {
+  background-color: #f44336;
+  color: white;
+}
+
+.remove {
+  background-color: #1f1301;
+  color: white;
+}
+
+.total-price-buy {
+  margin-top: 10px;
+  font-size: 40px;
+  width: 500px;
+  padding: 20px;
+  background-color: aliceblue;
+  border-radius: 20px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.confirm-button-buy {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #000000;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}

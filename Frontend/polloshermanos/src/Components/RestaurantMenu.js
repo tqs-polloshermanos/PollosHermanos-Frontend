@@ -1,34 +1,79 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useCart } from './CartContext';
 import './RestaurantMenu.css'; // Import CSS file
 
 function RestaurantMenu() {
-
-  const { id } = useParams();
-  const { addItemToCart } = useCart();
-  const [restaurant, setRestaurant] = useState(null);
+  
+  const { addItemToCart, cartItems, removeItemFromCart } = useCart();
+  const [restaurantName, setRestaurantName] = useState('');
+  const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [quantities, setQuantities] = useState({});
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const restaurantId = searchParams.get('');
 
   useEffect(() => {
-    const fetchRestaurant = async () => {
+    if (!restaurantId) {
+      return;
+    }
+    const fetchRestaurantName = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/restaurants/${id}`);
+        const response = await fetch(`http://localhost:8005/restaurants/${restaurantId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch restaurant data');
+        }
+        const data = await response.json();
+        setRestaurantName(data.name);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchRestaurantName();
+  }, [restaurantId]);
+
+  useEffect(() => {
+    if (!restaurantId) {
+      return;
+    }
+    const fetchMenuItems = async () => {
+      try {
+        const response = await fetch(`http://localhost:8005/api/products/restaurant/${restaurantId}`);
         if (!response.ok) {
           throw new Error('Something went wrong while fetching the data');
         }
         const data = await response.json();
-        setRestaurant(data);
+        setMenuItems(data);
       } catch (error) {
         console.error('Error:', error)
         setError('An error occurred while fetching restaurant data');
         alert('An error occurred while fetching restaurant data');
       }
     };
-    fetchRestaurant();
-  }, [id]);
+    fetchMenuItems();
+  }, [restaurantId]);
+
+  const handleBuy = () => {
+    console.log('Selected items:', selectedItems);
+    console.log('Cart items:', cartItems);
+    if (cartItems.length > 0) {
+      window.location.href = `/cart`;
+    }
+    else {
+      alert('No items selected');
+    }
+  };
+  
+  if (!restaurantId) {
+    return (
+      <div className="information-message">
+        <h1>Please select a restaurant first</h1>
+        <button onClick={() => window.location.href="/restaurants"} className='info-btn'>Select a restaurant</button>
+      </div>
+    );
+  }
 
   const handleQuantityChanges = (menuItemId, value) => {
     setQuantities({
@@ -39,33 +84,34 @@ function RestaurantMenu() {
 
   const selectItem = (menuItem) => {
     const existingItem = selectedItems.find(item => item.id ==menuItem.id);
+    const quantity = quantities[menuItem.id] || 1;
     if (existingItem) {
-      setSelectedItems(selectedItems.map(item => item.id == menuItem.id ? {...item, quantity: quantities[menuItem.id] || 1}: item));
+      setSelectedItems(selectedItems.map(item => item.id == menuItem.id ? {...item, quantity}: item));
     }
     else {
-      setSelectedItems([...selectedItems, { ...menuItem, quantity: quantities[menuItem.id] || 1}]);
+      setSelectedItems([...selectedItems, { ...menuItem, quantity}]);
     }
+    addItemToCart(menuItem, quantity);
   };
 
-  const handleBuy = () => {
-    selectedItems.forEach(item => addItemToCart(item));
-    window.location.href = `/cart`;
+  const removeItem = (itemId) => {
+    setSelectedItems(selectedItems.filter(item => item.id !== itemId));
+    removeItemFromCart(itemId);
   };
   
 
   return (
     <div className="menu-page-container">
-      <h2>{restaurant ? `${restaurant.name}` : 'Select a Restaurant'}</h2>
+      <h2>{restaurantName ? `${restaurantName} - Menu` : 'Select a Restaurant'}</h2>
       <div className='menu-container'>
         <div className="menu-items">
-          {restaurant && restaurant.menu ? (
-            restaurant.menu.map((item) => (
+          {menuItems.length > 0 ? (
+            menuItems.map((item) => (
               <div className="menu-item" key={item.id}>
-                <img src={item.image} alt={item.name} />
                 <div className="item-details">
                   <h3>{item.name}</h3>
                   <p>{item.description}</p>
-                  <p>${item.price.toFixed(2)}</p>
+                  <p><strong>${item.price.toFixed(2)}</strong></p>
                   <div className="add-to-cart">
                     <input
                       type="number"
@@ -73,7 +119,7 @@ function RestaurantMenu() {
                       value = {quantities[item.id] || 1}
                       onChange={(e) => handleQuantityChanges(item.id, parseInt(e.target.value))}
                     />
-                    <button onClick={() => selectItem(item)}>
+                    <button className='select-to-add-button' onClick={() => selectItem(item)}>
                       Select to add
                     </button>
                   </div>
@@ -87,20 +133,21 @@ function RestaurantMenu() {
         <div className='side-form'>
           {selectedItems.length > 0 && (
             <div className='side-form2'>
-              <h3>Selected Items</h3>
+              <h2>Selected Items</h2>
               <ul>
                 {selectedItems.map(item => (
                   <li key={item.id} className="selected-item">
                     <div className="selected-item-details">
-                      <span>{item.name}:  ${(item.price * item.quantity).toFixed(2)} x {item.quantity}</span>
+                      <h3>{item.name}:  ${(item.price).toFixed(2)} x {item.quantity}  </h3>
+                      <button onClick={() => removeItem(item.id)}>🗑️</button>
                     </div>
                   </li>
                 ))}
               </ul>
               <div className="total-price">
-                Total: ${selectedItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
+                <h2>Total: ${selectedItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}</h2>
               </div>
-              <button onClick={handleBuy}>Buy</button>
+              <button className='handle-buy-button' onClick={handleBuy}>Buy</button>
             </div>
           )}
         </div>

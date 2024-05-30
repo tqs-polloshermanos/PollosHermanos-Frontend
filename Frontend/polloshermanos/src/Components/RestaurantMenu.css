@@ -3,6 +3,20 @@
 .menu-page-container {
   padding: 120px;
 }
+  
+.information-message {
+  padding: 100px;
+  text-align: center;
+}
+
+.information-message h1 {
+  font-size: 100px;
+}
+
+.info-btn {
+  font-size: 40px;
+  padding: 40px 40px;
+}
 
 .menu-container {
   display: flex;
@@ -20,6 +34,16 @@
 .side-form2 {
   width: 100%;
   background-color: rgb(255, 157, 0);
+}
+
+
+.side-form2 h2{
+  font-size: 35px;
+  text-align: center;
+}
+
+.handle-buy-button { 
+  font-size: 30px;
 }
 
 .menu-items {
@@ -54,10 +78,19 @@
 .menu-item h3 {
   margin-top: 10px;
   margin-bottom: 5px;
+  font-size: 40px;
 }
 
 .menu-item p {
   margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.select-to-add-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 25px;
 }
 
 .add-to-cart {
