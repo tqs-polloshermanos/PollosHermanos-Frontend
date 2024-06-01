@@ -5,6 +5,12 @@ import './Logout.css'; // Import CSS file
 function Logout() {
   const { logout } = useAuth();
 
+  useEffect(() => {
+    localStorage.clear();
+    logout();
+  }
+  , [logout]);
+
   return (
     <div className="logout-container">
       <form  className="logout-form">

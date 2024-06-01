@@ -11,7 +11,12 @@ export const CartProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    if (localStorage.getItem('user') === null) {
+      localStorage.clear();
+    }
+    else{
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }
   }
   , [cartItems]);
 
