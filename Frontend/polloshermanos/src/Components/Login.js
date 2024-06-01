@@ -38,7 +38,9 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         console.log('Login successful:', data);
+        sessionStorage.setItem('token', data.token); // Store the token in the session storage
         localStorage.setItem('token', data.token);
+        console.log('Token stored successfully');
         login(data.user);
         window.location.href = '/'; // Redirect to the home page
       }
@@ -54,6 +56,8 @@ function Login() {
       alert('An error occurred, please try again');
     }
   };
+
+  console.log('Tokennnn stored:', localStorage.getItem('token'));
 
   return (
     <div className="login-container">

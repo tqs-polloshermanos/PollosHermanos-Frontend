@@ -8,9 +8,7 @@ function Cart() {
   const { isAuthenticated } = useAuth();
 
   const handleConfirmPurchase = () => {
-    alert('Purchase confirmed!')
-    console.log('Purchase confirmed!');
-    clearCart();
+    window.location.href = '/checkout';
   };
 
   useEffect(() => {

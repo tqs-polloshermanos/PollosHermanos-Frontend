@@ -10,6 +10,7 @@ import Restaurants from './Components/Restaurants';
 import Cart from './Components/Cart';
 import Contact from './Components/Contact';
 import RestaurantMenu from './Components/RestaurantMenu';
+import Checkout from './Components/Checkout';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AuthProvider  } from './Components/AuthContext';
 import { CartProvider  } from './Components/CartContext';
@@ -32,6 +33,7 @@ function App() {
               <Route path="/cart" component={Cart} /> {/* Define route for Cart component */}
               <Route path="/contact" component={Contact} /> {/* Define route for Contact component */}
               <Route path="/restaurantMenu" component={RestaurantMenu} /> {/* Define route for RestaurantMenu component */}
+              <Route path="/checkout" component={Checkout} /> {/* Define route for Checkout component */}
             </Switch>
           </div>
         </Router>
