@@ -19,14 +19,24 @@ export const CartProvider = ({ children }) => {
   const addItemToCart = (item, quantity) => {
     setCartItems((prevItems) => {
       const existingItem = prevItems.find(cartItem => cartItem.id === item.id);
-      if (existingItem) {
-        return prevItems.map(cartItem =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity}
-            : cartItem
-        );
-      } else {
-        return [...prevItems, { ...item, quantity }];
+      const restaurantId = item.restaurantId;
+
+      const isDifferentRestaurant = prevItems.length > 0 && prevItems[0].restaurantId !== restaurantId;
+
+      if (isDifferentRestaurant) {
+        alert('You can only order from one restaurant at a time - the previous items added to the cart will be deleted.');
+        return [{ ...item, quantity}];
+      }
+      else{ 
+        if (existingItem) {
+          return prevItems.map(cartItem =>
+            cartItem.id === item.id
+              ? { ...cartItem, quantity}
+              : cartItem
+          );
+        } else {
+          return [...prevItems, { ...item, quantity }];
+        }
       }
     });
   };
