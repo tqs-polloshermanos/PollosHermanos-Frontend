@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './Restaurants.css'; // Import CSS file
-import RestaurantMenu from './RestaurantMenu'; // Import the page with the menu of each restaurant
 
 function Restaurants() {
 
