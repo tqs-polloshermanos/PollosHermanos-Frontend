@@ -14,10 +14,9 @@ function NavbarComponent() {
       <div className="container">
         <a href="/" className="brand">Pollos Hermanos</a>
         <ul className="nav-list">
-          <li className="nav-item"><a href="/" className="nav-link">Home</a></li>
+          <li className="nav-item"><a href="/" className="nav-link">Home(Restaurant Selection)</a></li>
           <li className="nav-item"><a href="/manageOrders" className="nav-link">Manage Orders</a></li>
-          <li className="nav-item"><a href="/payments" className="nav-link">Payments</a></li>
-          <li className="nav-item"><a href="/assist" className="nav-link">Assist</a></li>
+          <li className="nav-item"><a href="/deliverOrders" className="nav-link">Deliver Orders</a></li>
         </ul>
         <ul className='nav-user'>
           {isAuthenticated ? (

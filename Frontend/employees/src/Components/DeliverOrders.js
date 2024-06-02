@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './ManageOrders.css'; // Import CSS file
+import './DeliverOrders.css'; // Import CSS file
 
-function ManageOrdersPage() {
-  const [processingOrderList, setProcessingOrderList] = useState([]);
+function DeliverOrdersPage() {
+  const [doneOrderList, setDoneOrderList] = useState([]);
   const [restaurantName, setRestaurantName] = useState('');
   const [error, setError] = useState('');
   const restaurant = localStorage.getItem('selectedRestaurant');
@@ -48,9 +48,9 @@ function ManageOrdersPage() {
     if (!restaurantId) {
       return;
     }
-    const fetchProcessingOrders = async () => {
+    const fetchDoneOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=PROCESSING`, {
+        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=DONE`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ function ManageOrdersPage() {
         const data = await response.json();
         console.log('Orders:', data);
         if(Array.isArray(data)){
-          setProcessingOrderList(data);
+          setDoneOrderList(data);
         }
         else{
           console.log('Unexpected response format:', data);
@@ -74,7 +74,7 @@ function ManageOrdersPage() {
         console.error('Error:', error);
       }
     };
-    fetchProcessingOrders();
+    fetchDoneOrders();
   }, [restaurantId]);
 
   if (!restaurantId) {
@@ -91,7 +91,7 @@ function ManageOrdersPage() {
 
     await fetchAuthenticatedUser();
 
-    setProcessingOrderList(processingOrderList.filter(order => order.id !== orderId));
+    setDoneOrderList(doneOrderList.filter(order => order.id !== orderId));
 
     setTimeout(async () => {
       try{
@@ -102,7 +102,7 @@ function ManageOrdersPage() {
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
           },
           body: JSON.stringify({
-            status: 'DONE',
+            status: 'DELIVERED',
           }),
         });
 
@@ -110,7 +110,7 @@ function ManageOrdersPage() {
 
         if (!response.ok) {
           const errorData = await response.json();
-          console.error('Error processing order:', errorData);
+          console.error('Error done order:', errorData);
           setError(errorData.message || 'Failed to process order');
           return;
         }
@@ -118,7 +118,7 @@ function ManageOrdersPage() {
         console.log('Order marked as done:', orderId);
       }
       catch (error) {
-        console.error('Error processing order:', error);
+        console.error('Error done order:', error);
       }
     }, 1000);
 
@@ -126,11 +126,11 @@ function ManageOrdersPage() {
 
   return (
     <div className="manage-orders-page">
-      <h1>Manage Orders for: {restaurantName}</h1>
+      <h1>Deliver Orders for: {restaurantName}</h1>
       <div className="orders-container">
-        {processingOrderList.length > 0 ? (
-          processingOrderList.map(order => (
-            <div className="order-card" key={order.id}>
+        {doneOrderList.length > 0 ? (
+          doneOrderList.map(order => (
+            <div className="delivers-card" key={order.id}>
               <div className="order-details">
                 <h2>Order #{order.id}</h2>
                 <h3>Date: {order.orderDate}</h3>
@@ -141,7 +141,7 @@ function ManageOrdersPage() {
                   ))}
                 </ul>
                 <button onClick={() => handleOrderDone(order.id)} className="done-button">
-                  Done
+                  Delivered
                 </button>
               </div>
             </div>
@@ -154,4 +154,4 @@ function ManageOrdersPage() {
   );
 }
 
-export default ManageOrdersPage;
+export default DeliverOrdersPage;

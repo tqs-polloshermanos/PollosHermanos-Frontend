@@ -51,7 +51,6 @@ function Cart() {
                 <p><strong>Price:</strong> ${item.price}</p>
               </div>
               <div className='quantity-buttons'>
-                <button className="personalize" onClick={() => console.log('Personalize item with id:', item.id)}>Personalize</button>
                 <button className="decrease" onClick={() => decreaseQuantity(item.id)}>-</button>
                 <p>Quantity: {item.quantity}</p>
                 <button className="increase" onClick={() => increaseQuantity(item.id)}>+</button>
