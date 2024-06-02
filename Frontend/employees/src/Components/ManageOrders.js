@@ -2,37 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './ManageOrders.css'; // Import CSS file
 
-// Dummy data for demonstration purposes
-// const orders = [
-//   {
-//     id: 1,
-//     image: 'product1.jpg',
-//     name: 'Chicken Sandwich',
-//     priority: true,
-//     quantity: 2,
-//   },
-//   {
-//     id: 2,
-//     image: 'product2.jpg',
-//     name: 'Veggie Burger',
-//     priority: false,
-//     quantity: 1,
-//   },
-//   {
-//     id: 3,
-//     image: 'product3.jpg',
-//     name: 'Fish Tacos',
-//     priority: true,
-//     quantity: 3,
-//   },
-// ];
-
 function ManageOrdersPage() {
-  const [orderList, setOrderList] = useState([]);
+  const [processingOrderList, setProcessingOrderList] = useState([]);
   const [restaurantName, setRestaurantName] = useState('');
+  const [error, setError] = useState('');
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const restaurantId = searchParams.get('');
+
+  async function fetchAuthenticatedUser() {
+    const response = await fetch('/users/me', {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+      }
+    });
+
+    console.log('Response:', response);
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Error fetching user:', errorData);
+      throw new Error(errorData.message || 'Failed to fetch user data');
+    }
+  }
 
   useEffect(() => {
     if (!restaurantId) {
@@ -58,13 +50,13 @@ function ManageOrdersPage() {
     if (!restaurantId) {
       return;
     }
-    const fetchOrders = async () => {
+    const fetchProcessingOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}`, {
+        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=PROCESSING`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + sessionStorage.getItem('token') || '',
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
           },
         });
         if (!response.ok) {
@@ -73,19 +65,18 @@ function ManageOrdersPage() {
           throw new Error(errorData.message || 'Failed to fetch orders');
         }
         const data = await response.json();
+        console.log('Orders:', data);
         if(Array.isArray(data)){
-          setOrderList(data);
+          setProcessingOrderList(data);
         }
         else{
           console.log('Unexpected response format:', data);
         }
-        // console.log('Orders:', data);
-        // setOrderList(data);
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    fetchOrders();
+    fetchProcessingOrders();
   }, [restaurantId]);
 
   if (!restaurantId) {
@@ -97,22 +88,60 @@ function ManageOrdersPage() {
     );
   }
 
-  const handleOrderDone = (orderId) => {
-    setOrderList(orderList.filter(order => order.id !== orderId));
+  const handleOrderDone = async (orderId) => {
+    setError('');
+
+    await fetchAuthenticatedUser();
+
+    setProcessingOrderList(processingOrderList.filter(order => order.id !== orderId));
+
+    setTimeout(async () => {
+      try{
+        const response = await fetch(`http://localhost:8005/orders/${orderId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          },
+          body: JSON.stringify({
+            status: 'DONE',
+          }),
+        });
+
+        console.log("Response: ", response);
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Error processing order:', errorData);
+          setError(errorData.message || 'Failed to process order');
+          return;
+        }
+
+        console.log('Order marked as done:', orderId);
+      }
+      catch (error) {
+        console.error('Error processing order:', error);
+      }
+    }, 1000);
+
   };
 
   return (
     <div className="manage-orders-page">
       <h1>Manage Orders for: {restaurantName}</h1>
       <div className="orders-container">
-        {orderList.length > 0 ? (
-          orderList.map(order => (
-            <div className={`order-card ${order.priority ? 'priority' : ''}`} key={order.id}>
+        {processingOrderList.length > 0 ? (
+          processingOrderList.map(order => (
+            <div className="order-card" key={order.id}>
               <div className="order-details">
-                <h3>Order #{order.id}</h3>
-                <h4>{order.name}</h4>
-                <p>Priority: {order.priority ? 'Yes' : 'No'}</p>
-                <p>Quantity: {order.quantity}</p>
+                <h2>Order #{order.id}</h2>
+                <h3>Date: {order.orderDate}</h3>
+                <h3>Items:</h3>
+                <ul>
+                  {order.orderItems.map(item => (
+                    <li key={item.productId}>{item.productName} - Quantity: {item.quantity}</li>
+                  ))}
+                </ul>
                 <button onClick={() => handleOrderDone(order.id)} className="done-button">
                   Done
                 </button>

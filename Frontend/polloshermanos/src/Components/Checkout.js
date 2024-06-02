@@ -91,8 +91,6 @@ function Checkout() {
       return;
     }
 
-    // TODO: UPDATE PAYMENT STATUS
-
     setTimeout(async () => {
       try{
         const orderItem = localStorage.getItem('order');

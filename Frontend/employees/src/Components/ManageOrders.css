@@ -29,27 +29,27 @@
     background-color: #fff;
     border: 2px solid #ccc;
     border-radius: 10px;
-    padding: 20px;
-    width: 300px;
+    width: calc(33.333% - 20px);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
-  .order-card.priority {
-    background-color: #e6ffe6; /* Light green background for priority orders */
-    border: 2px solid #33cc33; /* Green border for priority orders */
-  }
-  
-  .order-image {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-  }
-  
+
   .order-details {
-    margin-top: 10px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .order-details h2 {
+    font-size: 30px;
+  }
+  
+  .order-details ul {
+    list-style-type: none;
+    padding: 0;
   }
   
   .done-button {
@@ -60,6 +60,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 20px;
   }
   
   .done-button:hover {
