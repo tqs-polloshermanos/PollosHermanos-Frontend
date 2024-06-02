@@ -26,6 +26,7 @@ function RestaurantMenu() {
           throw new Error('Failed to fetch restaurant data');
         }
         const data = await response.json();
+        console.log('Restaurant:', data);
         setRestaurantName(data.name);
       } catch (error) {
         console.error('Error:', error);
