@@ -122,9 +122,9 @@ function Checkout() {
           return;
         } 
 
-        alert('Payment successful! Your order has been placed.');
         clearCart();
         setShowPaymentFields(false);
+        alert('Payment successful! Your order has been placed.\nOrder ID: ' + orderId + '\nRestaurant Name: ' + cartItems[0].restaurantName);
         window.location.href = '/history';
       }
       catch (error) {
