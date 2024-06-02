@@ -40,7 +40,7 @@ function RestaurantMenu() {
     }
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/api/products/restaurant/${restaurantId}`);
+        const response = await fetch(`http://localhost:8005/products/restaurant/${restaurantId}`);
         if (!response.ok) {
           throw new Error('Something went wrong while fetching the data');
         }
