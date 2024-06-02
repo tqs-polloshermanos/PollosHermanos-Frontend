@@ -5,7 +5,7 @@ import './RestaurantMenu.css'; // Import CSS file
 
 function RestaurantMenu() {
   
-  const { addItemToCart, cartItems, removeItemFromCart, clearCart } = useCart();
+  const { addItemToCart, cartItems, removeItemFromCart } = useCart();
   const [restaurantName, setRestaurantName] = useState('');
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);

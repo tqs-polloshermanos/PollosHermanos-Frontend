@@ -6,7 +6,7 @@ function Contact() {
     <div className="contact-container">
       <h1>Contact Us</h1>
       <div className="contact-info">
-        <p>Email: polloshermanos@gmail.com</p>
+        <p>Github: https://github.com/tqs-polloshermanos</p>
         <p>Address: DETI - Universidade de Aveiro, Aveiro, Portugal</p>
       </div>
     </div>
