@@ -19,7 +19,7 @@ function Checkout() {
   async function fetchAuthenticatedUser() {
     const response = await fetch('/users/me', {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming token is stored in local storage
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
       }
     });
 
@@ -69,6 +69,7 @@ function Checkout() {
   };
 
   const handlePayment = async () => {
+    await fetchAuthenticatedUser();
     setError('');
     
     const { cardNumber, cardName, expirationDate, cvv } = paymentInfo;
@@ -90,13 +91,48 @@ function Checkout() {
       return;
     }
 
-    setTimeout(() => {
-      alert('Payment successful!');
-      // TODO: Mark order as paid
-      
-      clearCart();
-      setShowPaymentFields(false);
-      window.location.href = '/';
+    // TODO: UPDATE PAYMENT STATUS
+
+    setTimeout(async () => {
+      try{
+        const orderItem = localStorage.getItem('order');
+        
+        if (!orderItem) {
+          setError('Order not found');
+          return;
+        }
+
+        const order = JSON.parse(orderItem);
+        const orderId = order.id;
+
+        const response = await fetch(`http://localhost:8005/orders/${orderId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          },
+          body: JSON.stringify({
+            status: 'PROCESSING',
+          }),
+        });
+
+        console.log("Response: ", response);
+
+        if (!response.ok) {
+          setError('Failed to process payment');
+          console.error('Error processing payment:', response);
+          return;
+        } 
+
+        alert('Payment successful! Your order has been placed.');
+        clearCart();
+        setShowPaymentFields(false);
+        window.location.href = '/history';
+      }
+      catch (error) {
+        setError('Failed to process payment');
+        console.error('Error processing payment:', error);
+      }
     }, 1000);
 
   };

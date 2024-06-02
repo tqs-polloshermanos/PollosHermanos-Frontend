@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './History.css'; // Import CSS file
-import { useHistory } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
-function History({ isAuthenticated }) {
-  // Dummy data for demonstration
-  const purchases = [
-    { id: 1, meal: 'Spaghetti', price: '$10', date: '2024-05-12', img: 'spaghetti.jpg' },
-    { id: 2, meal: 'Pizza', price: '$12', date: '2024-05-11', img: 'pizza.jpg' },
-    { id: 3, meal: 'Burger', price: '$8', date: '2024-05-10', img: 'burger.jpg' },
-    // Add more purchases as needed
-  ];
+function History() {
+  const [purchases, setPurchases] = useState([]);
+  const [error, setError] = useState(null);
+  const { isAuthenticated } = useAuth();
 
-  const history = useHistory();
+  useEffect(() => {
+    const fetchOrderHistory = async () => {
+      try {
+        const response = await fetch('http://localhost:8005/orders', {
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          }
+        });
+        
+        console.log('Response:', response);
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Error fetching order history:', errorData);
+          throw new Error(errorData.message || 'Failed to fetch order history');
+        }
+        const data = await response.json();
+        setPurchases(data);
+      } catch (error) {
+        setError(error.message);
+        console.error('Error fetching order history:', error);
+      }
+    };
+    if (isAuthenticated) {
+      fetchOrderHistory();
+    }
+  }, [isAuthenticated]);
+
 
   const handleReorder = (mealName) => {
     // Logic to reorder the selected meal
@@ -19,8 +42,7 @@ function History({ isAuthenticated }) {
   };
 
   const handleLogin = () => {
-    // Go to login page
-    history.push('/login');
+    window.location.href = `/login`;
   }
 
   if (!isAuthenticated) {
@@ -42,6 +64,7 @@ function History({ isAuthenticated }) {
               <img src={purchase.img} alt={purchase.meal} />
               <div className="purchase-details">
                 <h3>{purchase.meal}</h3>
+                <p>Restaurant: {purchase.restaurant}</p>
                 <p>Price: {purchase.price}</p>
                 <p>Date: {purchase.date}</p>
                 <button onClick={() => handleReorder(purchase.meal)}>Reorder</button>
