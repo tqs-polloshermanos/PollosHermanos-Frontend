@@ -9,6 +9,12 @@ function Checkout() {
   const { isAuthenticated, user } = useAuth();
   const [error, setError] = useState(null);
   const [showPaymentFields, setShowPaymentFields] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState({
+    cardNumber: '',
+    cardName: '',
+    expirationDate: '',
+    cvv: '',
+  });
 
   async function fetchAuthenticatedUser() {
     const response = await fetch('/users/me', {
@@ -64,17 +70,44 @@ function Checkout() {
 
   const handlePayment = async () => {
     setError('');
+    
+    const { cardNumber, cardName, expirationDate, cvv } = paymentInfo;
 
-    await fetchAuthenticatedUser();
+    if (!cardNumber || cardNumber.length !== 16 || isNaN(cardNumber)) {
+      setError('Invalid card number');
+      return;
+    }
+    if (!cardName) {
+      setError('Invalid card name');
+      return;
+    }
+    if (!expirationDate || !/^\d{2}\/\d{2}$/.test(expirationDate)) {
+      setError('Invalid expiration date');
+      return;
+    }
+    if (!cvv || cvv.length !== 3 || isNaN(cvv)) {
+      setError('Invalid CVV');
+      return;
+    }
 
-    const orderId = localStorage.getItem('order');
-
-
-    // Payment logic AND order completion and clean cart and give order number
+    setTimeout(() => {
+      alert('Payment successful!');
+      // TODO: Mark order as paid
+      
+      clearCart();
+      setShowPaymentFields(false);
+      window.location.href = '/';
+    }, 1000);
 
   };
 
-
+  const handlePaymentInfoChange = (e) => {
+    const { name, value } = e.target;
+    setPaymentInfo({
+      ...paymentInfo,
+      [name]: value,
+    });
+  };
 
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
@@ -117,11 +150,35 @@ function Checkout() {
       )}
       {showPaymentFields &&(
         <div className="payment-fields">
-            <p>Payment Information</p>
-            <input type="text" placeholder="Card Number" />
-            <input type="text" placeholder="Card Name" />
-            <input type="text" placeholder="Expiration Date" />
-            <input type="text" placeholder="CVV" />
+          <p>Payment Information</p>
+          <input
+            type="text"
+            name="cardNumber"
+            placeholder="Card Number"
+            value={paymentInfo.cardNumber}
+            onChange={handlePaymentInfoChange}
+          />
+          <input
+            type="text"
+            name="cardName"
+            placeholder="Card Name"
+            value={paymentInfo.cardName}
+            onChange={handlePaymentInfoChange}
+          />
+          <input
+            type="text"
+            name="expirationDate"
+            placeholder="Expiration Date (MM/YY)"
+            value={paymentInfo.expirationDate}
+            onChange={handlePaymentInfoChange}
+          />
+          <input
+            type="text"
+            name="cvv"
+            placeholder="CVV"
+            value={paymentInfo.cvv}
+            onChange={handlePaymentInfoChange}
+          />
             <button className='pay-button' onClick={handlePayment}>
               {'Pay'}
             </button>
