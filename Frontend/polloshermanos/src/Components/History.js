@@ -24,6 +24,7 @@ function History() {
           throw new Error(errorData.message || 'Failed to fetch order history');
         }
         const data = await response.json();
+        console.log('Order history:', data);
         setPurchases(data);
       } catch (error) {
         setError(error.message);
@@ -61,12 +62,11 @@ function History() {
         <div className="purchase-list">
           {purchases.map((purchase) => (
             <div className="purchase-card" key={purchase.id}>
-              <img src={purchase.img} alt={purchase.meal} />
               <div className="purchase-details">
-                <h3>{purchase.meal}</h3>
-                <p>Restaurant: {purchase.restaurant}</p>
-                <p>Price: {purchase.price}</p>
-                <p>Date: {purchase.date}</p>
+                <h3>Restaurant: {purchase.restaurantName}</h3>
+                <p>Meal: {purchase.cuisineType}</p>
+                <p>Date: {new Date(purchase.orderDate).toDateString()}</p>
+                <p>Status: {purchase.status}</p>
                 <button onClick={() => handleReorder(purchase.meal)}>Reorder</button>
               </div>
             </div>
