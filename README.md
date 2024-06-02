@@ -14,5 +14,7 @@ https://drive.google.com/drive/folders/17yzMTDpnrf3mIZ_kcYQiz4SihD0tW_Vi?usp=sha
 
 
 Docker:
-- backend --> docker run -d -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=taskdb --name mysqldb -p 3307:3306 mysql:8.0
-- frontend(cl)
+- backend -> docker run -d -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=taskdb --name mysqldb -p 3307:3306 mysql:8.0
+- frontend (client) -> docker run -d -p 8080:80 polloshermanos
+- frontend (employee) -> docker run -d -p 8081:80 --name frontend-employees frontend-employees
+- frontend (screen) -> docker run -d -p 8082:80 --name frontend-screen my-react-app
