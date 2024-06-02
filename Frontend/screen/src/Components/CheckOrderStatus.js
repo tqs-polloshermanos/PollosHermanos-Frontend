@@ -1,12 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CheckOrderStatus.css'; // Import CSS file
-import { useLocation } from 'react-router-dom'; // Import useLocation hook
 
 function CheckOrderStatusPage() {
   const [orderNumber, setOrderNumber] = useState('');
-  const [orderStatus, setOrderStatus] = useState(null);
-  const location = useLocation();
-  const { selectedRestaurantName } = location.state || {};
+  const restaurant = localStorage.getItem('selectedRestaurant');
+  const restaurantId = JSON.parse(restaurant).id;
+  const selectedRestaurantName = JSON.parse(restaurant).name;
+  const [pendingOrderList, setPendingOrderList] = useState([]);
+  const [processingOrderList, setProcessingOrderList] = useState([]);
+  const [doneOrderList, setDoneOrderList] = useState([]);
+  const [deliveredOrderList, setDeliveredOrderList] = useState([]);
+  const [cancelledOrderList, setCancelledOrderList] = useState([]);
+  const [orderStatus, setOrderStatus] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!restaurantId) {
+      return;
+    }
+    const fetchOrders = async (status, setOrderList) => {
+      try {
+        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=${status}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Error fetching orders:', errorData);
+          throw new Error(errorData.message || 'Failed to fetch orders');
+        }
+        const data = await response.json();
+        console.log(`${status} Orders:`, data);
+        if (Array.isArray(data)) {
+          setOrderList(data);
+        } else {
+          console.log('Unexpected response format:', data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchOrders('PENDING', setPendingOrderList);
+    fetchOrders('PROCESSING', setProcessingOrderList);
+    fetchOrders('DONE', setDoneOrderList);
+    fetchOrders('DELIVERED', setDeliveredOrderList);
+    fetchOrders('CANCELLED', setCancelledOrderList);
+  }, [restaurantId]);
 
   const handleInputChange = (e) => {
     setOrderNumber(e.target.value);
@@ -14,26 +56,27 @@ function CheckOrderStatusPage() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Dummy data for demonstration purposes
-    const orderData = {
-      101: 'In Progress',
-      102: 'In Progress',
-      103: 'Serving',
-      104: 'In Progress',
-      201: 'Serving',
-      202: 'Serving',
-      203: 'Serving',
-    };
-
-    // Fetch the order status based on the order number
-    const status = orderData[orderNumber];
-    setOrderStatus(status ? status : 'Order not found');
+    const allOrders = [
+      ...pendingOrderList,
+      ...processingOrderList,
+      ...doneOrderList,
+      ...deliveredOrderList,
+      ...cancelledOrderList
+    ];
+    const foundOrder = allOrders.find(order => order.id === Number(orderNumber));
+    if (foundOrder) {
+      setOrderStatus(foundOrder.status);
+      setError('');
+    } else {
+      setOrderStatus('');
+      setError('Order not found. Please check the order number and try again.');
+    }
   };
 
   return (
     <div className="check-order-status-page">
       <div className="order-status-container">
-        <h1>Check Order Status for {selectedRestaurantName}</h1>
+        <h1>Check Order Status for: {selectedRestaurantName}</h1>
         <form onSubmit={handleFormSubmit} className="order-status-form">
           <label htmlFor="orderNumber">Enter your order number:</label>
           <input
@@ -49,6 +92,11 @@ function CheckOrderStatusPage() {
           <div className="order-status-result">
             <h2>Order Status</h2>
             <p>{orderStatus}</p>
+          </div>
+        )}
+        {error && (
+          <div className="error-message">
+            <p>{error}</p>
           </div>
         )}
       </div>

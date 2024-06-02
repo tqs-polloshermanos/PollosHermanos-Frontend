@@ -38,6 +38,7 @@ function RestaurantSelection() {
   }
 
   const handleSelectRestaurant = (restaurant) => {
+    localStorage.setItem('selectedRestaurant', JSON.stringify(restaurant));
     setSelectedRestaurant(restaurant);
     updateRestaurantData(restaurant);
     window.location.href = `/ordersPage?=${restaurant.id}`;
