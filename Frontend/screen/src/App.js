@@ -7,8 +7,10 @@ import OrdersPage from './Components/OrdersPage';
 import CheckOrderStatusPage from './Components/CheckOrderStatus';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { RestaurantProvider } from './Components/RestaurantContext';
+import { useEffect } from 'react';
 
 function App() {
+  
   return (
     <RestaurantProvider>
       <Router>

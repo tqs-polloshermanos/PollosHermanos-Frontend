@@ -20,7 +20,7 @@ function CheckOrderStatusPage() {
     }
     const fetchOrders = async (status, setOrderList) => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=${status}`, {
+        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?statuses=${status}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
