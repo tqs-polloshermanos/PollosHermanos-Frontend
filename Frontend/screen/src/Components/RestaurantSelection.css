@@ -41,9 +41,9 @@
   }
   
   .restaurant-list {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 30px;
-    width: 1000px;
   }
   
   .restaurant-card {
@@ -52,6 +52,7 @@
     padding: 20px;
     text-align: center;
     margin-bottom: 20px;
+    width: 200px;
   }
   
   .restaurant-card img {
