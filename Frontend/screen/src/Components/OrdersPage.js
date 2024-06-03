@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import './OrdersPage.css'; // Import CSS file
-import { useRestaurant } from './RestaurantContext';
 
 function OrdersPage() {
   const [restaurantName, setRestaurantName] = useState('');
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const restaurantId = searchParams.get('');
+  const restaurant = localStorage.getItem('selectedRestaurant');
+  const restaurantId = JSON.parse(restaurant).id;
+  const [processingOrderList, setProcessingOrderList] = useState([]);
+  const [doneOrderList, setDoneOrderList] = useState([]);
 
   useEffect(() => {
     if (!restaurantId) {
@@ -28,9 +27,75 @@ function OrdersPage() {
     fetchRestaurantName();
   }, [restaurantId]);
 
-  // Dummy data for orders
-  const inProgressOrders = [101, 102, 103, 104];
-  const servingOrders = [201, 202, 203];
+  useEffect(() => {
+    if (!restaurantId) {
+      return;
+    }
+    const fetchProcessingOrders = async () => {
+      try {
+        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=PROCESSING`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Error fetching orders:', errorData);
+          throw new Error(errorData.message || 'Failed to fetch orders');
+        }
+        const data = await response.json();
+        console.log('Orders:', data);
+        if(Array.isArray(data)){
+          setProcessingOrderList(data);
+        }
+        else{
+          console.log('Unexpected response format:', data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchProcessingOrders();
+  }, [restaurantId]);
+
+  useEffect(() => {
+    if (!restaurantId) {
+      return;
+    }
+    const fetchDoneOrders = async () => {
+      try {
+        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=DONE`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Error fetching orders:', errorData);
+          throw new Error(errorData.message || 'Failed to fetch orders');
+        }
+        const data = await response.json();
+        console.log('Orders:', data);
+        if(Array.isArray(data)){
+          setDoneOrderList(data);
+        }
+        else{
+          console.log('Unexpected response format:', data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchDoneOrders();
+  }, [restaurantId]);
+
+
+  const processingOrdersIds = processingOrderList.map(order => order.id);
+  console.log('Processing Orders IDs:', processingOrdersIds);
+  const doneOrdersIds = doneOrderList.map(order => order.id);
+  console.log('Done Orders IDs:', doneOrdersIds);
 
   const handleCheckOrderStatus = () => {
     window.location.href = '/checkorderstatus';
@@ -54,7 +119,7 @@ function OrdersPage() {
               </tr>
             </thead>
             <tbody>
-              {inProgressOrders.map(order => (
+              {processingOrdersIds.map(order => (
                 <tr key={order}>
                   <td>{order}</td>
                 </tr>
@@ -71,7 +136,7 @@ function OrdersPage() {
               </tr>
             </thead>
             <tbody>
-              {servingOrders.map(order => (
+              {doneOrdersIds.map(order => (
                 <tr key={order}>
                   <td>{order}</td>
                 </tr>

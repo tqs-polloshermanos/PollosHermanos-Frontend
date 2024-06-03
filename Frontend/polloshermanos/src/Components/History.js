@@ -1,27 +1,118 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './History.css'; // Import CSS file
-import { useHistory } from 'react-router-dom';
+import { useCart } from './CartContext';
+import { useAuth } from './AuthContext';
 
-function History({ isAuthenticated }) {
-  // Dummy data for demonstration
-  const purchases = [
-    { id: 1, meal: 'Spaghetti', price: '$10', date: '2024-05-12', img: 'spaghetti.jpg' },
-    { id: 2, meal: 'Pizza', price: '$12', date: '2024-05-11', img: 'pizza.jpg' },
-    { id: 3, meal: 'Burger', price: '$8', date: '2024-05-10', img: 'burger.jpg' },
-    // Add more purchases as needed
-  ];
+function History() {
+  const [purchases, setPurchases] = useState([]);
+  const [error, setError] = useState(null);
+  const [restaurants, setRestaurants] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [cuisineType, setCuisineType] = useState('');
+  const { addItemToCart } = useCart();
+  const { isAuthenticated } = useAuth();
 
-  const history = useHistory();
+  useEffect(() => {
+    const fetchOrderHistory = async () => {
+      try {
+        const response = await fetch('http://localhost:8005/orders', {
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+          }
+        });
+        
+        console.log('Response:', response);
 
-  const handleReorder = (mealName) => {
-    // Logic to reorder the selected meal
-    console.log('Reordering:', mealName);
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Error fetching order history:', errorData);
+          throw new Error(errorData.message || 'Failed to fetch order history');
+        }
+        const data = await response.json();
+        console.log('Order history:', data);
+        
+        setPurchases(data);
+      } catch (error) {
+        setError(error.message);
+        console.error('Error fetching order history:', error);
+      }
+    };
+    if (isAuthenticated) {
+      fetchOrderHistory();
+    }
+  }, [isAuthenticated]);
+
+
+  const handleReorder = (purchase) => {
+    console.log('Reordering:', purchase);
+    console.log('Items:', purchase.orderItems);
+    const itemIds = purchase.orderItems.map(item => item.productId);
+    console.log('Item IDs:', itemIds);
+    const quantities = purchase.orderItems.reduce((acc, item) => {
+      acc[item.productId] = item.quantity;
+      return acc;
+    }, {});
+    console.log('Quantities:', quantities);
+    
+    const fetchItems = async () => {
+      try {
+        const items = await Promise.all(itemIds.map(async (itemId) => {
+          const response = await fetch(`http://localhost:8005/products/${itemId}`);
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Error fetching item:', errorData);
+            throw new Error(errorData.message || 'Failed to fetch item');
+          }
+          return response.json();
+        }));
+        console.log('Items:', items);
+        return items;
+      }
+      catch (error) {
+        console.error('Error fetching items:', error);
+        setError(error.message);
+        throw error;
+      }
+    };
+
+    fetchItems()
+      .then((items) => {
+        console.log('Items:', items);
+        addItemsToCart(items, quantities);
+        window.location.href = '/cart';
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   };
 
   const handleLogin = () => {
-    // Go to login page
-    history.push('/login');
+    window.location.href = `/login`;
   }
+
+  const addItemsToCart = async (items, quantities) => {
+    console.log('Items type:', typeof items);
+    console.log('Adding items to cart:', items);
+    console.log('Quantities:', quantities);
+    items.forEach((item) => {
+      addItemToCart(item, quantities[item.id]);
+    });
+  }
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleCuisineTypeChange = (e) => {
+    setCuisineType(e.target.value);
+  };
+
+  const filteredPurchases = purchases.filter((purchase) => {
+    const nameMatch = purchase.restaurantName.toLowerCase().includes(searchQuery.toLowerCase());
+    const cuisineTypeMatch = !cuisineType || purchase.cuisineType === cuisineType;
+    return nameMatch && cuisineTypeMatch;
+  });
+
 
   if (!isAuthenticated) {
     return (
@@ -35,20 +126,44 @@ function History({ isAuthenticated }) {
   return (
     <div className="history-container">
       <h1>Purchase History</h1>
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search for a restaurant..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+        <select value={cuisineType} onChange={handleCuisineTypeChange}>
+          <option value="">All Cuisines</option>
+          <option value="MEXICAN">Mexican</option>
+          <option value="AMERICAN">American</option>
+          <option value="ITALIAN">Italian</option>
+          <option value="CHINESE">Chinese</option>
+          <option value="JAPANESE">Japanese</option>
+          <option value="INDIAN">Indian</option>
+          <option value="FRENCH">French</option>
+          <option value="MEDITERRANEAN">Mediterranean</option>
+          <option value="OTHER">Other</option>
+        </select>
+      </div>
       <div className="purchases-container">
-        <div className="purchase-list">
-          {purchases.map((purchase) => (
-            <div className="purchase-card" key={purchase.id}>
-              <img src={purchase.img} alt={purchase.meal} />
-              <div className="purchase-details">
-                <h3>{purchase.meal}</h3>
-                <p>Price: {purchase.price}</p>
-                <p>Date: {purchase.date}</p>
-                <button onClick={() => handleReorder(purchase.meal)}>Reorder</button>
+        {filteredPurchases.length === 0 ? (
+          <p className="no-purchases-message">No purchases found.</p>
+        ) : (
+          <div className="purchase-list">
+            {filteredPurchases.map((purchase, index) => (
+              <div className="purchase-card" key={purchase.id}>
+                <div className="purchase-details">
+                  <h3>Restaurant: {purchase.restaurantName}</h3>
+                  <p>Meal: {purchase.cuisineType}</p>
+                  <p>Date: {new Date(purchase.orderDate).toDateString()}</p>
+                  <p>Status: {purchase.status}</p>
+                  <button onClick={() => handleReorder(purchase)}>Reorder</button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

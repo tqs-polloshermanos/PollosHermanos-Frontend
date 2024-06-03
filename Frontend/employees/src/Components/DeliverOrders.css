@@ -25,8 +25,8 @@
     margin-top: 20px;
   }
   
-  .order-card {
-    background-color: #fff;
+  .delivers-card {
+    background-color: #ceffa6;
     border: 2px solid #ccc;
     border-radius: 10px;
     width: calc(33.333% - 20px);

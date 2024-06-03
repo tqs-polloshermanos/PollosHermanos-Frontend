@@ -5,7 +5,7 @@ import './RestaurantMenu.css'; // Import CSS file
 
 function RestaurantMenu() {
   
-  const { addItemToCart, cartItems, removeItemFromCart, clearCart } = useCart();
+  const { addItemToCart, cartItems, removeItemFromCart } = useCart();
   const [restaurantName, setRestaurantName] = useState('');
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
@@ -26,6 +26,7 @@ function RestaurantMenu() {
           throw new Error('Failed to fetch restaurant data');
         }
         const data = await response.json();
+        console.log('Restaurant:', data);
         setRestaurantName(data.name);
       } catch (error) {
         console.error('Error:', error);
@@ -40,7 +41,7 @@ function RestaurantMenu() {
     }
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/api/products/restaurant/${restaurantId}`);
+        const response = await fetch(`http://localhost:8005/products/restaurant/${restaurantId}`);
         if (!response.ok) {
           throw new Error('Something went wrong while fetching the data');
         }
