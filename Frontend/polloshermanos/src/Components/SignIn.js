@@ -28,9 +28,14 @@ function Signin() {
     e.preventDefault();
     setError('');
     
-    if (!email.includes('@')) {
+    if (!email.includes('@') || !email.includes('.') || email.indexOf('@') > email.lastIndexOf('.') || email.lastIndexOf('.') === email.length - 1 || email.indexOf('@') === 0 || email.indexOf('.') === 0) {
       setError('Please enter a valid email');
       alert("Please enter a valid email");
+      return;
+    }
+    if (password.length < 6){
+      setError('Password must be at least 6 characters long');
+      alert('Password must be at least 6 characters long');
       return;
     }
     if (password != confirmPassword ) {
