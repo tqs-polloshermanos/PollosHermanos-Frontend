@@ -78,11 +78,14 @@ function Checkout() {
       setError('Invalid card number');
       return;
     }
-    if (!cardName) {
+    if (!cardName || cardName.length === 0 || !/^[a-zA-Z ]+$/.test(cardName)) {
       setError('Invalid card name');
       return;
     }
-    if (!expirationDate || !/^\d{2}\/\d{2}$/.test(expirationDate)) {
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear().toString().slice(2, 4);
+    if (!expirationDate || !/^\d{2}\/\d{2}$/.test(expirationDate) || expirationDate.slice(0, 2) < '01' || expirationDate.slice(0, 2) > '12' || expirationDate.slice(3, 5) < currentYear || (expirationDate.slice(3, 5) === currentYear && expirationDate.slice(0, 2) <= currentMonth)){
       setError('Invalid expiration date');
       return;
     }
@@ -103,15 +106,12 @@ function Checkout() {
         const order = JSON.parse(orderItem);
         const orderId = order.id;
 
-        const response = await fetch(`http://localhost:8005/orders/${orderId}`, {
-          method: 'PATCH',
+        const response = await fetch(`http://localhost:8005/orders/payment/${orderId}`, {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
           },
-          body: JSON.stringify({
-            status: 'PROCESSING',
-          }),
         });
 
         console.log("Response: ", response);
