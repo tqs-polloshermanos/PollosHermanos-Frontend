@@ -12,6 +12,7 @@ function OrdersPage() {
     if (!restaurantId) {
       return;
     }
+
     const fetchRestaurantName = async () => {
       try {
         const response = await fetch(`http://localhost:8005/restaurants/${restaurantId}`);
@@ -24,13 +25,7 @@ function OrdersPage() {
         console.error('Error:', error);
       }
     };
-    fetchRestaurantName();
-  }, [restaurantId]);
 
-  useEffect(() => {
-    if (!restaurantId) {
-      return;
-    }
     const fetchProcessingOrders = async () => {
       try {
         const response = await fetch(`http://localhost:8005/orders/in-progress/${restaurantId}`, {
@@ -45,24 +40,17 @@ function OrdersPage() {
           throw new Error(errorData.message || 'Failed to fetch orders');
         }
         const data = await response.json();
-        console.log('Orders:', data);
-        if(Array.isArray(data.orders)){
+        console.log('Processing Orders:', data);
+        if (Array.isArray(data.orders)) {
           setProcessingOrderList(data.orders);
-        }
-        else{
+        } else {
           console.log('Unexpected response format:', data);
         }
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    fetchProcessingOrders();
-  }, [restaurantId]);
 
-  useEffect(() => {
-    if (!restaurantId) {
-      return;
-    }
     const fetchDoneOrders = async () => {
       try {
         const response = await fetch(`http://localhost:8005/orders/done/${restaurantId}`, {
@@ -77,20 +65,28 @@ function OrdersPage() {
           throw new Error(errorData.message || 'Failed to fetch orders');
         }
         const data = await response.json();
-        console.log('Orders:', data);
-        if(Array.isArray(data.orders)){
+        console.log('Done Orders:', data);
+        if (Array.isArray(data.orders)) {
           setDoneOrderList(data.orders);
-        }
-        else{
+        } else {
           console.log('Unexpected response format:', data);
         }
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    fetchDoneOrders();
-  }, [restaurantId]);
 
+    fetchRestaurantName();
+    fetchProcessingOrders();
+    fetchDoneOrders();
+
+    const intervalId = setInterval(() => {
+      fetchProcessingOrders();
+      fetchDoneOrders();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [restaurantId]);
 
   const processingOrdersIds = processingOrderList.map(order => order.id);
   console.log('Processing Orders IDs:', processingOrdersIds);
