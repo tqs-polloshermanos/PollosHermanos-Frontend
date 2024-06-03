@@ -52,14 +52,13 @@ function ManageOrdersPage() {
     }
     const fetchProcessingOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?statuses=PROCESSING`, {
+        const response = await fetch(`http://localhost:8005/orders/in-progress/${restaurantId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
           },
         });
-
         if (!response.ok) {
           const errorData = await response.json();
           console.error('Error fetching orders:', errorData);
@@ -67,12 +66,13 @@ function ManageOrdersPage() {
         }
         const data = await response.json();
         console.log('Orders:', data);
-        if(Array.isArray(data)){
-          setProcessingOrderList(data);
+        if(Array.isArray(data.orders)){
+          setProcessingOrderList(data.orders);
         }
         else{
           console.log('Unexpected response format:', data);
         }
+        console.log('Processing Orders:', processingOrderList);
       } catch (error) {
         console.error('Error:', error);
       }
