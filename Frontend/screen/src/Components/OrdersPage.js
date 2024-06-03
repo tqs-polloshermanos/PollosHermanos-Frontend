@@ -33,7 +33,7 @@ function OrdersPage() {
     }
     const fetchProcessingOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=PROCESSING`, {
+        const response = await fetch(`http://localhost:8005/orders/in-progress/${restaurantId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -46,8 +46,8 @@ function OrdersPage() {
         }
         const data = await response.json();
         console.log('Orders:', data);
-        if(Array.isArray(data)){
-          setProcessingOrderList(data);
+        if(Array.isArray(data.orders)){
+          setProcessingOrderList(data.orders);
         }
         else{
           console.log('Unexpected response format:', data);
@@ -65,7 +65,7 @@ function OrdersPage() {
     }
     const fetchDoneOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=DONE`, {
+        const response = await fetch(`http://localhost:8005/orders/done/${restaurantId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -78,8 +78,8 @@ function OrdersPage() {
         }
         const data = await response.json();
         console.log('Orders:', data);
-        if(Array.isArray(data)){
-          setDoneOrderList(data);
+        if(Array.isArray(data.orders)){
+          setDoneOrderList(data.orders);
         }
         else{
           console.log('Unexpected response format:', data);
