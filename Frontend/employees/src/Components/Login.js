@@ -84,7 +84,7 @@ function Login() {
         </div>
         <button type="submit" className="login-btn">Login</button>
 
-        <p>If you don’t have an account please sign in <a href="/signin">here</a>.</p> {/* Link to the sign-in component */}
+        <h4>If you don’t have an account please contact your manager to give you an employee account! </h4>
       </form>
     </div>
   );
