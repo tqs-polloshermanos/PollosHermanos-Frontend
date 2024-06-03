@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from './AuthContext';
-import './Logout.css'; // Import CSS file
+import './Logout.css';
 
 function Logout() {
   const { logout } = useAuth();

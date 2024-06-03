@@ -24,16 +24,16 @@ function App() {
           <div className="App">
             <NavbarComponent />
             <Switch>
-              <Route exact path="/" component={Home} /> {/* Define route for Home component */}
-              <Route path="/login" component={Login} /> {/* Define route for Login component */}
-              <Route path="/signin" component={SignIn} /> {/* Define route for SignIn component */}
-              <Route path="/logout" component={Logout} /> {/* Define route for Logout component */}
-              <Route path="/history" component={History} /> {/* Define route for History component */}
-              <Route path="/restaurants" component={Restaurants} /> {/* Define route for Restaurants component */}
-              <Route path="/cart" component={Cart} /> {/* Define route for Cart component */}
-              <Route path="/contact" component={Contact} /> {/* Define route for Contact component */}
-              <Route path="/restaurantMenu" component={RestaurantMenu} /> {/* Define route for RestaurantMenu component */}
-              <Route path="/checkout" component={Checkout} /> {/* Define route for Checkout component */}
+              <Route exact path="/" component={Home} /> 
+              <Route path="/login" component={Login} /> 
+              <Route path="/signin" component={SignIn} />
+              <Route path="/logout" component={Logout} />
+              <Route path="/history" component={History} /> 
+              <Route path="/restaurants" component={Restaurants} /> 
+              <Route path="/cart" component={Cart} /> 
+              <Route path="/contact" component={Contact} /> 
+              <Route path="/restaurantMenu" component={RestaurantMenu} /> 
+              <Route path="/checkout" component={Checkout} /> 
             </Switch>
           </div>
         </Router>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from './AuthContext';
-import './Home.css'; // Import CSS file for initial view
-import HomeAfterLogin from './HomeAfterLogin'; // Import the component to show after login
+import './Home.css';
+import HomeAfterLogin from './HomeAfterLogin';
 
 function Home() {
   const { isAuthenticated } = useAuth();

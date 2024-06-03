@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './SignIn.css'; // Import CSS file
+import './SignIn.css'; 
 
 function Signin() {
   const [fullName, setFullName] = useState('');
@@ -63,7 +63,7 @@ function Signin() {
           const text = await response.text();
           console.log('Registration successful:', text);
         }
-        window.location.href = '/login'; // Redirect to the login page
+        window.location.href = '/login'; 
       }
       else if (response.status === 400) {
         const errorData = await response.text();

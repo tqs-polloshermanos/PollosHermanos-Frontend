@@ -1,4 +1,4 @@
-/* NavbarComponent.css */
+
 .navbar {
     position: fixed;
     top: 0;
@@ -13,7 +13,7 @@
     max-width: 100%;
     margin: 0 30px auto;
     display: flex;
-    justify-content: space-between; /* Align brand and nav-list */
+    justify-content: space-between;
     align-items: center;
   }
   

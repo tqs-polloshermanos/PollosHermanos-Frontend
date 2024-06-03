@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './OrdersPage.css'; // Import CSS file
+import './OrdersPage.css';
 
 function OrdersPage() {
   const [restaurantName, setRestaurantName] = useState('');

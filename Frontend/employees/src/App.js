@@ -17,12 +17,12 @@ function App() {
         <div className="App">
           <NavbarComponent />
           <Switch>
-            <Route exact path="/" component={Home} /> {/* Define route for Home component */}
-            <Route path="/login" component={Login} /> {/* Define route for Login component */}
-            <Route path="/logout" component={Logout} /> {/* Define route for Logout component */}
-            <Route path="/homeAfterLogin" component={HomeAfterLogin} /> {/* Define route for HomeAfterLogin component */}
-            <Route path="/manageOrders" component={ManageOrders} /> {/* Define route for ManageOrders component */}
-            <Route path="/deliverOrders" component={DeliverOrders} /> {/* Define route for DeliverOrders component */}
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} /> 
+            <Route path="/logout" component={Logout} />
+            <Route path="/homeAfterLogin" component={HomeAfterLogin} /> 
+            <Route path="/manageOrders" component={ManageOrders} />
+            <Route path="/deliverOrders" component={DeliverOrders} />
           </Switch>
         </div>
       </Router>

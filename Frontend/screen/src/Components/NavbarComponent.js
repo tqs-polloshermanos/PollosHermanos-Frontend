@@ -1,6 +1,5 @@
-// NavbarComponent.js
 import React, { useState, useEffect } from 'react';
-import './NavbarComponent.css'; // Import CSS file
+import './NavbarComponent.css';
 import { useRestaurant } from './RestaurantContext';
 
 function NavbarComponent() {

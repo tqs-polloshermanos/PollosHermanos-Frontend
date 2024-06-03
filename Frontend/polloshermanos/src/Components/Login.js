@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
-import './Login.css'; // Import CSS file
+import './Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -38,11 +38,11 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         console.log('Login successful:', data);
-        sessionStorage.setItem('token', data.token); // Store the token in the session storage
+        sessionStorage.setItem('token', data.token);
         localStorage.setItem('token', data.token);
         console.log('Token stored successfully');
         login(data.user);
-        window.location.href = '/'; // Redirect to the home page
+        window.location.href = '/';
       }
       else {
         const errorData = await response.json();
@@ -86,7 +86,7 @@ function Login() {
         </div>
         <button type="submit" className="login-btn">Login</button>
 
-        <p>If you don’t have an account please sign in <a href="/signin">here</a>.</p> {/* Link to the sign-in component */}
+        <p>If you don’t have an account please sign in <a href="/signin">here</a>.</p>
       </form>
     </div>
   );

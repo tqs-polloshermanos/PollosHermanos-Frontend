@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './DeliverOrders.css'; // Import CSS file
+import './DeliverOrders.css';
 import { useAuth } from './AuthContext';
 
 function DeliverOrdersPage() {

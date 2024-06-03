@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import './CheckOrderStatus.css'; // Import CSS file
+import './CheckOrderStatus.css';
 
 function CheckOrderStatusPage() {
   const [orderNumber, setOrderNumber] = useState('');
   const restaurant = localStorage.getItem('selectedRestaurant');
   const restaurantId = JSON.parse(restaurant).id;
   const selectedRestaurantName = JSON.parse(restaurant).name;
-  const [pendingOrderList, setPendingOrderList] = useState([]);
   const [processingOrderList, setProcessingOrderList] = useState([]);
   const [doneOrderList, setDoneOrderList] = useState([]);
-  const [deliveredOrderList, setDeliveredOrderList] = useState([]);
-  const [cancelledOrderList, setCancelledOrderList] = useState([]);
   const [orderStatus, setOrderStatus] = useState('');
   const [error, setError] = useState('');
 
@@ -43,11 +40,8 @@ function CheckOrderStatusPage() {
       }
     };
 
-    // fetchOrders('PENDING', setPendingOrderList);
     fetchOrders('in-progress', setProcessingOrderList);
-    // fetchOrders('DONE', setDoneOrderList);
     fetchOrders('done', setDoneOrderList);
-    // fetchOrders('CANCELLED', setCancelledOrderList);
   }, [restaurantId]);
 
   const handleInputChange = (e) => {

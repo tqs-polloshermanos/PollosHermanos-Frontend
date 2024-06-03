@@ -2,7 +2,7 @@ import React from 'react';
 import friesImage from './img/fries.png';
 import specialBurgerImage from './img/special_burger.png';
 import pizzaImage from './img/pizza.png';
-import './Home.css'; // Import CSS file
+import './Home.css';
 
 function Home() {
   return (

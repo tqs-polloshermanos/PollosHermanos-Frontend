@@ -1,6 +1,5 @@
-// NavbarComponent.js
 import React from 'react';
-import './NavbarComponent.css'; // Import CSS file
+import './NavbarComponent.css'; 
 import { useAuth } from './AuthContext';
 
 function NavbarComponent() {

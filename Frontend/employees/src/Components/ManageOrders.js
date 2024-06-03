@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ManageOrders.css'; // Import CSS file
+import './ManageOrders.css'; 
 import { useAuth } from './AuthContext';
 
 function ManageOrdersPage() {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './Cart.css'; // Import CSS file
+import './Cart.css';
 import { useCart } from './CartContext';
 import { useAuth } from './AuthContext';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './History.css'; // Import CSS file
+import './History.css';
 import { useCart } from './CartContext';
 import { useAuth } from './AuthContext';
 

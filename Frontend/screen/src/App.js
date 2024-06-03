@@ -7,7 +7,6 @@ import OrdersPage from './Components/OrdersPage';
 import CheckOrderStatusPage from './Components/CheckOrderStatus';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { RestaurantProvider } from './Components/RestaurantContext';
-import { useEffect } from 'react';
 
 function App() {
   
@@ -17,10 +16,10 @@ function App() {
         <div className="App">
           <NavbarComponent />
           <Switch>
-            <Route exact path="/" component={Home} /> {/* Define route for Home component */}
-            <Route exact path="/orderspage" component={OrdersPage} /> {/* Define route for OrdersPage component */}
-            <Route exact path="/restaurantSelection" component={RestaurantSelection} /> {/* Define route for RestaurantSelection component */}
-            <Route exact path="/checkorderstatus" component={CheckOrderStatusPage} /> {/* Define route for CheckOrderStatus component */}
+            <Route exact path="/" component={Home} /> 
+            <Route exact path="/orderspage" component={OrdersPage} /> 
+            <Route exact path="/restaurantSelection" component={RestaurantSelection} />
+            <Route exact path="/checkorderstatus" component={CheckOrderStatusPage} />
           </Switch>
         </div>
       </Router>
