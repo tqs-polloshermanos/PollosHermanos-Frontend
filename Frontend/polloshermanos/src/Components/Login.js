@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault();
     setError('');
     
-    if (!email.includes('@')) {
+    if (!email.includes('@') || !email.includes('.') || email.indexOf('@') > email.lastIndexOf('.') || email.lastIndexOf('.') === email.length - 1 || email.indexOf('@') === 0 || email.indexOf('.') === 0) {
       setError('Please enter a valid email');
       alert("Please enter a valid email");
       return;
@@ -48,7 +48,7 @@ function Login() {
         const errorData = await response.json();
         console.log('Error:', errorData);
         setError(errorData.message || 'Login failed');
-        alert(errorData.message || 'Login failed');
+        alert(errorData.message || 'Login failed! Try again!');
       }
     } catch (error) {
       console.error('Error:', error);

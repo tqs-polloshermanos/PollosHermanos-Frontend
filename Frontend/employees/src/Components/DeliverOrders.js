@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './DeliverOrders.css'; // Import CSS file
+import { useAuth } from './AuthContext';
 
 function DeliverOrdersPage() {
   const [doneOrderList, setDoneOrderList] = useState([]);
   const [restaurantName, setRestaurantName] = useState('');
   const [error, setError] = useState('');
+  const { isAuthenticated } = useAuth();
   const restaurant = localStorage.getItem('selectedRestaurant');
-  const restaurantId = JSON.parse(restaurant).id;
+  const restaurantId = restaurant ? JSON.parse(restaurant).id : null;
 
   async function fetchAuthenticatedUser() {
     const response = await fetch('/users/me', {
@@ -50,7 +52,7 @@ function DeliverOrdersPage() {
     }
     const fetchDoneOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?status=DONE`, {
+        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?statuses=DONE`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -76,6 +78,17 @@ function DeliverOrdersPage() {
     };
     fetchDoneOrders();
   }, [restaurantId]);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="login-message">
+        <h2>Please log in to deliver orders</h2>
+        <a href="/login">
+          <button className="login-button">Please Login</button>
+        </a>
+      </div>
+    );
+  }
 
   if (!restaurantId) {
     return (
