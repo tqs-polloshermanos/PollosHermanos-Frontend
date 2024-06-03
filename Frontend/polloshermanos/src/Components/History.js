@@ -155,6 +155,7 @@ function History() {
               <div className="purchase-card" key={purchase.id}>
                 <div className="purchase-details">
                   <h3>Restaurant: {purchase.restaurantName}</h3>
+                  <h4>Order Number: {purchase.id}</h4>
                   <p>Meal: {purchase.cuisineType}</p>
                   <p>Date: {new Date(purchase.orderDate).toDateString()}</p>
                   <p>Status: {purchase.status}</p>
