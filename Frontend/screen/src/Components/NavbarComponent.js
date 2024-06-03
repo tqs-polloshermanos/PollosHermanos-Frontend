@@ -41,7 +41,7 @@ function NavbarComponent() {
           <span className="time">{formatTime(currentDateTime)}</span>
         </div>
         {restaurantData.name ? (
-          <a href="/" className="nav-link">{restaurantData.name}</a>
+          <a href="/" className="nav-link">Click here to change the restaurant - {restaurantData.name}</a>
         ) : (
           <a href="/restaurantSelection" className="nav-link">Select a Restaurant</a>
         )}

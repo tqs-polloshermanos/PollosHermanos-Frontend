@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './RestaurantSelection.css'; // Import CSS file
-import HomeAfterLogin from './HomeAfterLogin';
 
 function RestaurantSelection() {
 
@@ -38,6 +37,7 @@ function RestaurantSelection() {
 
   const handleSelectRestaurant = (restaurant) => {
     setSelectedRestaurant(restaurant);
+    localStorage.setItem('selectedRestaurant', JSON.stringify(restaurant));
     window.location.href = `/manageOrders?=${restaurant.id}`;
   };
 
