@@ -20,7 +20,7 @@ function CheckOrderStatusPage() {
     }
     const fetchOrders = async (status, setOrderList) => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/restaurant/${restaurantId}?statuses=${status}`, {
+        const response = await fetch(`http://localhost:8005/orders/${status}/${restaurantId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -33,8 +33,8 @@ function CheckOrderStatusPage() {
         }
         const data = await response.json();
         console.log(`${status} Orders:`, data);
-        if (Array.isArray(data)) {
-          setOrderList(data);
+        if (Array.isArray(data.orders)) {
+          setOrderList(data.orders);
         } else {
           console.log('Unexpected response format:', data);
         }
@@ -43,11 +43,11 @@ function CheckOrderStatusPage() {
       }
     };
 
-    fetchOrders('PENDING', setPendingOrderList);
-    fetchOrders('PROCESSING', setProcessingOrderList);
-    fetchOrders('DONE', setDoneOrderList);
-    fetchOrders('DELIVERED', setDeliveredOrderList);
-    fetchOrders('CANCELLED', setCancelledOrderList);
+    // fetchOrders('PENDING', setPendingOrderList);
+    fetchOrders('in-progress', setProcessingOrderList);
+    // fetchOrders('DONE', setDoneOrderList);
+    fetchOrders('done', setDoneOrderList);
+    // fetchOrders('CANCELLED', setCancelledOrderList);
   }, [restaurantId]);
 
   const handleInputChange = (e) => {
@@ -57,11 +57,8 @@ function CheckOrderStatusPage() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const allOrders = [
-      ...pendingOrderList,
       ...processingOrderList,
-      ...doneOrderList,
-      ...deliveredOrderList,
-      ...cancelledOrderList
+      ...doneOrderList
     ];
     const foundOrder = allOrders.find(order => order.id === Number(orderNumber));
     if (foundOrder) {

@@ -25,7 +25,7 @@ function NavbarComponent() {
               <a href="/logout" className="nav-link" onClick={logout}>Logout</a>
             </>
           ): (
-            <a href="/login" className="nav-link">Login/Sign-up</a>
+            <a href="/login" className="nav-link">Login</a>
             )}
         </ul>
       </div>
