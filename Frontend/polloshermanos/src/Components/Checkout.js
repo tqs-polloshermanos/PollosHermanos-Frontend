@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Checkout.css';
 import { useCart } from './CartContext';
 import { useAuth } from './AuthContext';
+import config from '../config';
 
 function Checkout() {
 
@@ -17,7 +18,7 @@ function Checkout() {
   });
 
   async function fetchAuthenticatedUser() {
-    const response = await fetch('/users/me', {
+    const response = await fetch(`${config.apiUrl}/users/me`, {
       headers: {
         'Authorization': `Bearer ${sessionStorage.getItem('token')}`
       }
@@ -37,7 +38,7 @@ function Checkout() {
 
     await fetchAuthenticatedUser();
 
-    const response = await fetch('http://localhost:8005/orders', {
+    const response = await fetch(`${config.apiUrl}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -106,7 +107,7 @@ function Checkout() {
         const order = JSON.parse(orderItem);
         const orderId = order.id;
 
-        const response = await fetch(`http://localhost:8005/orders/payment/${orderId}`, {
+        const response = await fetch(`${config.apiUrl}/orders/payment/${orderId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

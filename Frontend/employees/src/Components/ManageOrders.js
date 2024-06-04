@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ManageOrders.css'; 
 import { useAuth } from './AuthContext';
+import config from '../config';
 
 function ManageOrdersPage() {
   const [processingOrderList, setProcessingOrderList] = useState([]);
@@ -11,7 +12,7 @@ function ManageOrdersPage() {
   const restaurantId = restaurant ? JSON.parse(restaurant).id : null;
 
   async function fetchAuthenticatedUser() {
-    const response = await fetch('/users/me', {
+    const response = await fetch(`${config.apiUrl}/users/me`, {
       headers: {
         'Authorization': `Bearer ${sessionStorage.getItem('token')}`
       }
@@ -32,7 +33,7 @@ function ManageOrdersPage() {
     }
     const fetchRestaurantName = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/restaurants/${restaurantId}`);
+        const response = await fetch(`${config.apiUrl}/restaurants/${restaurantId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch restaurant data');
         }
@@ -52,7 +53,7 @@ function ManageOrdersPage() {
     }
     const fetchProcessingOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/in-progress/${restaurantId}`, {
+        const response = await fetch(`${config.apiUrl}/orders/in-progress/${restaurantId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -109,7 +110,7 @@ function ManageOrdersPage() {
 
     setTimeout(async () => {
       try{
-        const response = await fetch(`http://localhost:8005/orders/${orderId}`, {
+        const response = await fetch(`${config.apiUrl}/orders/${orderId}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',

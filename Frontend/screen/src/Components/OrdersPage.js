@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './OrdersPage.css';
+import config from '../config';
 
 function OrdersPage() {
   const [restaurantName, setRestaurantName] = useState('');
@@ -15,7 +16,7 @@ function OrdersPage() {
 
     const fetchRestaurantName = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/restaurants/${restaurantId}`);
+        const response = await fetch(`${config.apiUrl}/restaurants/${restaurantId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch restaurant data');
         }
@@ -28,7 +29,7 @@ function OrdersPage() {
 
     const fetchProcessingOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/in-progress/${restaurantId}`, {
+        const response = await fetch(`${config.apiUrl}/orders/in-progress/${restaurantId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ function OrdersPage() {
 
     const fetchDoneOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/done/${restaurantId}`, {
+        const response = await fetch(`${config.apiUrl}/orders/done/${restaurantId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

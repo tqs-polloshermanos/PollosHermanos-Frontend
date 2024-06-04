@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CheckOrderStatus.css';
+import config from '../config';
 
 function CheckOrderStatusPage() {
   const [orderNumber, setOrderNumber] = useState('');
@@ -17,7 +18,7 @@ function CheckOrderStatusPage() {
     }
     const fetchOrders = async (status, setOrderList) => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/${status}/${restaurantId}`, {
+        const response = await fetch(`${config.api}/orders/${status}/${restaurantId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

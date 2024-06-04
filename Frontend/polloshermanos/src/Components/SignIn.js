@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SignIn.css'; 
+import config from '../config';
 
 function Signin() {
   const [fullName, setFullName] = useState('');
@@ -45,7 +46,7 @@ function Signin() {
     }
 
     try {
-      const response = await fetch('http://localhost:8005/auth/signup', {
+      const response = await fetch(`${config.apiUrl}/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
