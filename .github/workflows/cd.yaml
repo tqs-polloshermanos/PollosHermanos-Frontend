@@ -1,0 +1,41 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        app:
+          - employees
+          - polloshermanos
+          - screen
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./Frontend/${{ matrix.app }}
+
+    - name: Log in to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/tqs-polloshermanos:${{ matrix.app }}-latest  XXXXXXXXX ./Frontend/${{ matrix.app }}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/tqs-polloshermanos:${{ matrix.app }}-latest
