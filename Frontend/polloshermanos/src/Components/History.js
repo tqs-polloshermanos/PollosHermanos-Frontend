@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './History.css';
 import { useCart } from './CartContext';
 import { useAuth } from './AuthContext';
+import config from '../config';
 
 function History() {
   const [purchases, setPurchases] = useState([]);
@@ -15,7 +16,7 @@ function History() {
   useEffect(() => {
     const fetchOrderHistory = async () => {
       try {
-        const response = await fetch('http://localhost:8005/orders', {
+        const response = await fetch(`${config.apiUrl}/orders`, {
           headers: {
             'Authorization': `Bearer ${sessionStorage.getItem('token')}`
           }
@@ -57,7 +58,7 @@ function History() {
     const fetchItems = async () => {
       try {
         const items = await Promise.all(itemIds.map(async (itemId) => {
-          const response = await fetch(`http://localhost:8005/products/${itemId}`);
+          const response = await fetch(`${config.apiUrl}/products/${itemId}`);
           if (!response.ok) {
             const errorData = await response.json();
             console.error('Error fetching item:', errorData);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Restaurants.css';
+import config from '../config';
 
 function Restaurants() {
 
@@ -12,7 +13,7 @@ function Restaurants() {
   useEffect(() => {
     const fetchRestaurants = async () => {
       try{
-        const response = await fetch('http://localhost:8005/restaurants');
+        const response = await fetch(`${config.apiUrl}/restaurants`);
         if (!response.ok) {
           throw new Error('Something went wrong while fetching the data');
         }

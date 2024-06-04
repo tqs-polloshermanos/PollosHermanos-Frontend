@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './DeliverOrders.css';
 import { useAuth } from './AuthContext';
+import config from '../config';
 
 function DeliverOrdersPage() {
   const [doneOrderList, setDoneOrderList] = useState([]);
@@ -11,7 +12,7 @@ function DeliverOrdersPage() {
   const restaurantId = restaurant ? JSON.parse(restaurant).id : null;
 
   async function fetchAuthenticatedUser() {
-    const response = await fetch('/users/me', {
+    const response = await fetch(`${config.apiUrl}/users/me`, {
       headers: {
         'Authorization': `Bearer ${sessionStorage.getItem('token')}`
       }
@@ -32,7 +33,7 @@ function DeliverOrdersPage() {
     }
     const fetchRestaurantName = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/restaurants/${restaurantId}`);
+        const response = await fetch(`${config.apiUrl}/restaurants/${restaurantId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch restaurant data');
         }
@@ -52,7 +53,7 @@ function DeliverOrdersPage() {
     }
     const fetchDoneOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/orders/done/${restaurantId}`, {
+        const response = await fetch(`${config.apiUrl}/orders/done/${restaurantId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -108,7 +109,7 @@ function DeliverOrdersPage() {
 
     setTimeout(async () => {
       try{
-        const response = await fetch(`http://localhost:8005/orders/${orderId}`, {
+        const response = await fetch(`${config.apiUrl}/orders/${orderId}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',

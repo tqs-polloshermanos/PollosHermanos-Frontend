@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useCart } from './CartContext';
 import './RestaurantMenu.css';
+import config from '../config';
 
 function RestaurantMenu() {
   
@@ -21,7 +22,7 @@ function RestaurantMenu() {
     }
     const fetchRestaurantName = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/restaurants/${restaurantId}`);
+        const response = await fetch(`${config.apiUrl}/restaurants/${restaurantId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch restaurant data');
         }
@@ -41,7 +42,7 @@ function RestaurantMenu() {
     }
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch(`http://localhost:8005/products/restaurant/${restaurantId}`);
+        const response = await fetch(`${config.apiUrl}/products/restaurant/${restaurantId}`);
         if (!response.ok) {
           throw new Error('Something went wrong while fetching the data');
         }
